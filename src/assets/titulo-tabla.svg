@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Capa_2" data-name="Capa 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 415.41 77.78">
+  <defs>
+    <style>
+      .cls-1 {
+        stroke-width: 0px;
+      }
+
+      .cls-2 {
+        font-family: AzeretMonoRoman-Bold, 'Azeret Mono';
+        font-size: 71.01px;
+        font-variation-settings: 'wght' 700;
+        font-weight: 700;
+      }
+    </style>
+  </defs>
+  <g id="Capa_1-2" data-name="Capa 1">
+    <g>
+      <text class="cls-2" transform="translate(0 60.29)"><tspan x="0" y="0">DevKoders</tspan></text>
+      <rect class="cls-1" x="4" y="67.98" width="384.22" height="9.8"/>
+      <rect class="cls-1" x="399.6" y="67.98" width="11.41" height="9.8"/>
+    </g>
+  </g>
+</svg>

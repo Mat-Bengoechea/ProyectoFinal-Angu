@@ -1,0 +1,50 @@
+<form [formGroup]="alumnoForm" (ngSubmit)="submitForm()" class="form-alumno">
+    <div class="form-alum">
+        <mat-form-field>
+            <mat-label>Nombre</mat-label>
+            <input matInput formControlName="nombre" required>
+            <mat-error
+                *ngIf="alumnoForm.get('nombre')?.hasError('required') && alumnoForm.get('nombre')?.touched">Campo
+                requerido</mat-error>
+            <mat-error *ngIf="nombre?.hasError('minlength')">
+                <small class="text-danger">El nombre debe tener al menos 3 caracteres</small></mat-error>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Apellido</mat-label>
+            <input matInput formControlName="apellido" required>
+            <mat-error
+                *ngIf="alumnoForm.get('apellido')?.hasError('required') && alumnoForm.get('apellido')?.touched">Campo
+                requerido</mat-error>
+            <mat-error *ngIf="apellido?.hasError('minlength')">
+                <small class="text-danger">El apellido debe tener al menos 3 caracteres</small></mat-error>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Email</mat-label>
+            <input matInput formControlName="email" required email>
+            <mat-error
+                *ngIf="alumnoForm.get('email')?.hasError('required') && alumnoForm.get('email')?.touched">Campo
+                requerido</mat-error>
+            <mat-error *ngIf="email?.hasError('email')">
+                <small class="text-danger">El email no es valido</small></mat-error>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Edad</mat-label>
+            <input matInput formControlName="edad" required type="number">
+            <mat-error *ngIf="alumnoForm.get('edad')?.hasError('required') && alumnoForm.get('edad')?.touched">Campo
+                requerido</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Curso</mat-label>
+            <mat-select formControlName="curso" required>
+                <mat-option value="Angular">Angular</mat-option>
+                <mat-option value="React">React</mat-option>
+                <mat-option value="Vue">Vue</mat-option>
+                <mat-option value="Svelte">Svelte</mat-option>
+                <mat-option value="Ember">Ember</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <button mat-flat-button type="submitForm" class="butoonsubm">ENVIAR</button>
+    </div>
+
+</form>
