@@ -16,7 +16,7 @@ import { FullNamePipe } from './pipes/full-name.pipe';
 import { HideEmailPipe } from './pipes/hide-email.pipe';
 import { DirectiveDirective } from './directives/directive.directive';
 import { MatDialogModule } from '@angular/material/dialog';
-
+import { UserNamePipe } from './pipes/UserName.pipe';
 
 
 @NgModule({
@@ -32,8 +32,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatListModule,
     MatTableModule,
     ReactiveFormsModule,
-    MatDialogModule
-
+    MatDialogModule,
+    UserNamePipe
   ],
 
   exports: [
@@ -50,7 +50,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     FullNamePipe,
     HideEmailPipe,
     DirectiveDirective,
-    MatDialogModule
+    MatDialogModule,
+    UserNamePipe,
   ],
 
 })

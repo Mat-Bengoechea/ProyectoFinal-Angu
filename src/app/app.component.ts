@@ -1,18 +1,24 @@
-import { Component } from '@angular/core';
-import { validarApellido, validarnombre, validateEmail } from './shared/utils/validator';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Student } from './student/interface/interface';
+import { Component, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { FormComponent } from './student/components/form/form.component';
+import { FormComponent } from '../app/feature/student/components/form/form.component';
+import { UserService } from './core/services/UserService.service';
+import { MatDrawer } from '@angular/material/sidenav';
+
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  standalone: false,
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-openDialog(arg0: string,arg1: string) {
+
+  @ViewChild('drawer') drawer!: MatDrawer;
+
+  toggleDrawer() {
+    this.drawer.toggle();
+  }
+
+  openDialog(arg0: string,arg1: string) {
 throw new Error('Method not implemented.');
 }
 
@@ -20,7 +26,7 @@ throw new Error('Method not implemented.');
 
   showFiller = false;
 
-  constructor(private dialog: MatDialog) { }
+  constructor(public UserService: UserService, private dialog: MatDialog) { }
 
   openFormDialog(): void {
     this.dialog.open(FormComponent, {
