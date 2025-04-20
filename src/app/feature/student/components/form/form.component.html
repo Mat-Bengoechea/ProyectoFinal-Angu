@@ -1,36 +1,36 @@
-<form [formGroup]="myForm" (ngSubmit)="submitForm()" class="form-alumno">
+<form [formGroup]="myform" (ngSubmit)="submitForm()" class="form-alumno">
     <div class="form-alum">
         <mat-form-field>
             <mat-label>Nombre</mat-label>
             <input matInput formControlName="nombre" required>
             <mat-error
-                *ngIf="myForm.get('nombre')?.hasError('required') && myForm.get('nombre')?.touched">Campo
+                *ngIf="myform.get('nombre')?.hasError('required') && myform.get('nombre')?.touched">Campo
                 requerido</mat-error>
-            <mat-error *ngIf="myForm.get('nombre')?.hasError('minlength')">
+            <mat-error *ngIf="myform.get('nombre')?.hasError('minlength')">
                 <small class="text-danger">El nombre debe tener al menos 3 caracteres</small></mat-error>
         </mat-form-field>
         <mat-form-field>
             <mat-label>Apellido</mat-label>
             <input matInput formControlName="apellido" required>
             <mat-error
-                *ngIf="myForm.get('apellido')?.hasError('required') && myForm.get('apellido')?.touched">Campo
+                *ngIf="myform.get('apellido')?.hasError('required') && myform.get('apellido')?.touched">Campo
                 requerido</mat-error>
-            <mat-error *ngIf="myForm.get('apellido')?.hasError('minlength')">
+            <mat-error *ngIf="myform.get('apellido')?.hasError('minlength')">
                 <small class="text-danger">El apellido debe tener al menos 3 caracteres</small></mat-error>
         </mat-form-field>
         <mat-form-field>
             <mat-label>Email</mat-label>
             <input matInput formControlName="email" required email>
             <mat-error
-                *ngIf="myForm.get('email')?.hasError('required') && myForm.get('email')?.touched">Campo
+                *ngIf="myform.get('email')?.hasError('required') && myform.get('email')?.touched">Campo
                 requerido</mat-error>
-            <mat-error *ngIf="myForm.get('email')?.hasError('email')">
+            <mat-error *ngIf="myform.get('email')?.hasError('email')">
                 <small class="text-danger">El email no es valido</small></mat-error>
         </mat-form-field>
         <mat-form-field>
             <mat-label>Edad</mat-label>
             <input matInput formControlName="edad" required type="number">
-            <mat-error *ngIf="myForm.get('edad')?.hasError('required') && myForm.get('edad')?.touched">Campo
+            <mat-error *ngIf="myform.get('edad')?.hasError('required') && myform.get('edad')?.touched">Campo
                 requerido</mat-error>
         </mat-form-field>
         <mat-form-field>

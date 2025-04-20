@@ -1,7 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { FormComponent } from '../app/feature/student/components/form/form.component';
-import { UserService } from './core/services/UserService.service';
+import { userService } from './core/services/UserService.service';
 import { MatDrawer } from '@angular/material/sidenav';
 
 
@@ -26,7 +26,7 @@ throw new Error('Method not implemented.');
 
   showFiller = false;
 
-  constructor(public UserService: UserService, private dialog: MatDialog) { }
+  constructor(public userService: userService, private dialog: MatDialog) { }
 
   openFormDialog(): void {
     this.dialog.open(FormComponent, {

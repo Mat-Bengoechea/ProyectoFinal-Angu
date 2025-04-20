@@ -4,57 +4,56 @@
     </div>
     <mat-drawer #drawer class="sidenav" mode="over">
         <div class="user-name">
-            {{ UserService.userName$ | async }}
+            {{ userService.userName$ | async }}
         </div>
         <ul>
             <mat-list>
-                <mat-list-item><a mat-button routerLink="/home" routerLinkActive="active-link">Inicio</a></mat-list-item>
-                <mat-list-item><a mat-button routerLink="/about"
-                        routerLinkActive="active-link">Nosotros</a></mat-list-item>
-                <mat-list-item><a mat-button routerLink="/contact"
-                        routerLinkActive="active-link">Contacto</a></mat-list-item>
+                <mat-list-item>
+                    <a mat-button routerLink="/home" routerLinkActive="active-link">Inicio</a>
+                </mat-list-item>
+                <mat-list-item>
+                    <a mat-button routerLink="/about" routerLinkActive="active-link">Nosotros</a>
+                </mat-list-item>
+                <mat-list-item>
+                    <a mat-button routerLink="/contact" routerLinkActive="active-link">Contacto</a>
+                </mat-list-item>
             </mat-list>
         </ul>
     </mat-drawer>
 
     <div class="sidenav-content">
         <mat-toolbar>
-            <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon"
-                (click)="toggleDrawer()">
+            <button mat-icon-button aria-label="Abrir menú de navegación" (click)="toggleDrawer()">
                 <mat-icon>menu</mat-icon>
             </button>
         </mat-toolbar>
+
+        <section class="portada">
+            <div>
+                <h1 class="titulo-principal">Formación</h1>
+                <p class="texto-principal">[que habla tu <br> lenguaje.]</p>
+            </div>
+            <div class="img-port">
+                <img src="assets/imagen secundaria.png" alt="Imagen secundaria">
+            </div>
+            <div class="img-port2">
+                <img src="assets/texto secundario.svg" alt="Texto secundario">
+            </div>
+        </section>
+
+        <section class="container-form">
+            <p class="frase" appDirective>
+                > npm install <span class="Conoci">CONOCIMIENTOS</span><br>
+                > run aprendizaje
+            </p>
+            <h2 class="Empeza">Empezá hoy.</h2>
+            <p class="text-empe">Aprendé con claridad. <br> Crecé con propósito.</p>
+            <button class="buttonform" mat-flat-button color="primary" (click)="openFormDialog()">Unirme ahora!!</button>
+        </section>
+
+        <div class="titulo-tabla">
+            <h2>DevKoders</h2>
+        </div>
+        <app-table></app-table>
     </div>
-
-    <section class="portada">
-        <div>
-            <h1 class="titulo-principal">Formación</h1>
-            <p class="texto-principal">[que habla tu <br>
-                lenguaje.]</p>
-        </div>
-        <div class="img-port">
-            <img src="assets/imagen secundaria.png" alt="">
-        </div>
-
-        <div class="img-port2">
-            <img src="assets/texto secundario.svg" alt="">
-        </div>
-
-    </section>
-    <section class="container-form">
-        <p class="frase" appDirective>
-            > npm install <span class="Conoci">CONOCIMIENTOS</span><br>
-            > run aprendizaje
-        </p>
-        <h2 class="Empeza">Empezá hoy.</h2>
-        <p class="text-empe">Aprendé con claridad. <br>
-            Crecé con propósito.</p>
-<button class="buttonform" mat-flat-button color="primary" (click)="openFormDialog()">Unirme ahora!!</button>
-    </section>
-
-    <div class="titulo-tabla">
-        <h2>DevKoders</h2>
-    </div>
-    <app-table></app-table>
-
 </mat-drawer-container>

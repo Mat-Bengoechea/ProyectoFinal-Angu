@@ -5,11 +5,7 @@ import { BehaviorSubject, Observable } from "rxjs";
   providedIn: "root",
 })
 
-export class UserService {
+export class userService {
     private userNameSubject = new BehaviorSubject<string>("Jose Luis");
-    userName$: Observable<string> = this.userNameSubject.asObservable();
-
-    setUserName(name: string): void {
-        this.userNameSubject.next(name);
-    }
+    userName$ = this.userNameSubject.asObservable();
 }

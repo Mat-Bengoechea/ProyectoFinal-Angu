@@ -33,7 +33,7 @@ import { UserNamePipe } from './pipes/UserName.pipe';
     MatTableModule,
     ReactiveFormsModule,
     MatDialogModule,
-    UserNamePipe
+    UserNamePipe,
   ],
 
   exports: [
