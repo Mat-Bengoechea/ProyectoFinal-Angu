@@ -10,7 +10,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MatListItemIcon, MatListModule } from '@angular/material/list';
+import { MatListModule } from '@angular/material/list';
 import { MatTableModule } from '@angular/material/table';
 import { FullNamePipe } from './pipes/full-name.pipe';
 import { HideEmailPipe } from './pipes/hide-email.pipe';
@@ -34,8 +34,6 @@ import { UserNamePipe } from './pipes/UserName.pipe';
     ReactiveFormsModule,
     MatDialogModule,
     UserNamePipe,
-    MatButtonModule,
-    MatListItemIcon,
   ],
 
   exports: [
@@ -54,8 +52,6 @@ import { UserNamePipe } from './pipes/UserName.pipe';
     DirectiveDirective,
     MatDialogModule,
     UserNamePipe,
-    MatButtonModule,
-    MatListItemIcon
   ],
 
 })
