@@ -3,14 +3,13 @@ import { MatDialog } from '@angular/material/dialog';
 import { FormComponent } from '../app/feature/student/components/form/form.component';
 import { userService } from './core/services/UserService.service';
 import { MatDrawer } from '@angular/material/sidenav';
-import { StudentModule } from "./feature/student/student.module";
 
 
 @Component({
   selector: 'app-root',
+  standalone: false,
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
-  imports: [StudentModule]
 })
 export class AppComponent {
 
