@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
-import { EmailValidator, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
 import { validateEmail } from '../../../shared/utils/validator';
+import { MatDialogRef } from '@angular/material/dialog';
 
 
 
@@ -18,7 +19,9 @@ loginForm: FormGroup
 
 constructor(private fb:FormBuilder,
   private router: Router,
-  private authService: AuthService
+  private authService: AuthService,
+  private MatDialogRef: MatDialogRef<LoginComponent>,
+
 
 ){
   this.loginForm = this.fb.group({
@@ -37,7 +40,7 @@ submit() {
       return;
     }
 
-    this.router.navigate(['/dashboard']);
+    this.MatDialogRef.close();
   }
 }
 }
