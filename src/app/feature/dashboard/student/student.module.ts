@@ -3,8 +3,9 @@ import { CommonModule } from '@angular/common';
 import { FormComponent } from './components/form/form.component';
 import { TableComponent } from './components/table/table.component';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
-import { SharedModule } from '../../shared/shared.module';
+import { SharedModule } from '../../../shared/shared.module';
 import { MatDialogModule } from '@angular/material/dialog';
+import { StudentComponent } from './student.component';
 
 
 
@@ -12,17 +13,15 @@ import { MatDialogModule } from '@angular/material/dialog';
   declarations: [
     FormComponent,
     TableComponent,
+    StudentComponent,
   ],
   imports: [
     CommonModule,
     SharedModule,
-    MatDialogModule
+    MatDialogModule,
   ],
   exports: [
-    FormComponent,
-    TableComponent,
-    SharedModule,
-    MatDialogModule
+    StudentComponent
   ],
 
   providers: [

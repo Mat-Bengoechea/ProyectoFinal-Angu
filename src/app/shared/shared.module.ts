@@ -17,10 +17,12 @@ import { HideEmailPipe } from './pipes/hide-email.pipe';
 import { DirectiveDirective } from './directives/directive.directive';
 import { MatDialogModule } from '@angular/material/dialog';
 import { UserNamePipe } from './pipes/UserName.pipe';
+import { MatCardModule } from '@angular/material/card';
+import { RouterModule } from '@angular/router';
 
 
 @NgModule({
-  declarations: [SidebarComponent, ToolbarComponent, ElementComponent, FullNamePipe, HideEmailPipe, DirectiveDirective,],
+  declarations: [SidebarComponent, ToolbarComponent, ElementComponent, FullNamePipe, HideEmailPipe, DirectiveDirective, SidebarComponent],
   imports: [
     CommonModule,
     MatSidenavModule,
@@ -34,6 +36,9 @@ import { UserNamePipe } from './pipes/UserName.pipe';
     ReactiveFormsModule,
     MatDialogModule,
     UserNamePipe,
+    MatCardModule,
+    RouterModule,
+    MatCardModule
   ],
 
   exports: [
@@ -52,6 +57,10 @@ import { UserNamePipe } from './pipes/UserName.pipe';
     DirectiveDirective,
     MatDialogModule,
     UserNamePipe,
+    MatCardModule,
+    RouterModule,
+    SidebarComponent,
+    MatCardModule
   ],
 
 })

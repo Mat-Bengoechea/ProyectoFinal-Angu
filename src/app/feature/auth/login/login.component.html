@@ -1,0 +1,38 @@
+<div class="container-log">
+    <mat-card>
+        <mat-card-title>Iniciar sesión</mat-card-title>
+        <form [formGroup]="loginForm" (submit)="submit()">
+          <div>
+            <mat-form-field>
+              <mat-label>Email</mat-label>
+              <input matInput type="email" formControlName="email" />
+              <mat-error *ngIf="loginForm.get('email')?.hasError('required')">
+                El email es obligatorio.
+              </mat-error>
+              <mat-error *ngIf="loginForm.get('email')?.hasError('email')">
+                El email no es válido.
+              </mat-error>
+              <mat-error *ngIf="loginForm.get('email')?.hasError('validateEmail')">
+                El email no cumple con el formato requerido.
+              </mat-error>
+            </mat-form-field>
+    
+            <mat-form-field>
+              <mat-label>Password</mat-label>
+              <input matInput type="password" formControlName="password" />
+              <mat-error *ngIf="loginForm.get('password')?.hasError('required')">
+                La contraseña es obligatoria.
+              </mat-error>
+              <mat-error *ngIf="loginForm.get('password')?.hasError('minlength')">
+                La contraseña debe tener al menos 4 caracteres.
+              </mat-error>
+              <mat-error *ngIf="loginForm.get('password')?.hasError('pattern')">
+                La contraseña solo puede contener letras y números.
+              </mat-error>
+            </mat-form-field>
+    
+            <button mat-flat-button type="submit" [disabled]="loginForm.invalid" class="button-login">Iniciar</button>
+          </div>
+        </form>
+      </mat-card>
+</div>

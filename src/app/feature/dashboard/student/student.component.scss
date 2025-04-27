@@ -1,0 +1,56 @@
+.container-form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #212121;
+    overflow: hidden;
+    
+  }
+
+  .frase{
+    font-family: 'Azeret Mono', 'Azeret Mono Bold';
+    font-weight: 700;
+    color: white;
+    margin-bottom: 20px;
+    margin-top: -50px;
+    margin-bottom: 70px;
+  }
+
+  .Conoci{
+    font-size: 30px;
+    color: #005CBB;
+  }
+
+  .Empeza{
+    font-size: 40px;
+    color: #005CBB;
+    text-transform: uppercase;
+    font-size: 100px;
+    margin-bottom: 70px;
+  }
+
+
+  .text-empe{
+    font-family: 'Azeret Mono', 'Azeret Mono Bold';
+    font-weight: 200;
+    color: white;
+    font-size: 40px;
+    margin-bottom: 70px;
+  }
+
+.titulo-tabla{
+  font-family: 'Azeret Mono', 'Azeret Mono Bold';
+  font-weight: 700;
+  color: #212121;
+  font-size: 50px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.buttonform{
+    width: 400px;
+    height: auto;
+    font-size: 40px;
+  }

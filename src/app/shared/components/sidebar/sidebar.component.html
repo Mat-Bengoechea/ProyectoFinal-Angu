@@ -1,1 +1,16 @@
-<p>sidebar works!</p>
+    <div class="user-name">
+        {{ userName$ | async }}
+    </div>
+    <ul>
+        <mat-list>
+            <mat-list-item>
+                <a mat-button routerLink="/dashboard" routerLinkActive="active-link">Inicio</a>
+            </mat-list-item>
+            <mat-list-item>
+                <a mat-button routerLink="/dashboard/students" routerLinkActive="active-link">Estudiantes</a>
+            </mat-list-item>
+            <mat-list-item>
+                <a mat-button routerLink="/dashboard/courses" routerLinkActive="active-link">Cursos</a>
+            </mat-list-item>
+        </mat-list>
+    </ul>

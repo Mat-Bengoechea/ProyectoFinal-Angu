@@ -12,16 +12,16 @@ import { MatDialogRef, MatDialog } from '@angular/material/dialog';
     <h1 mat-dialog-title>{{Titles}}</h1>
     <div mat-dialog-content>{{Content}}</div>
     <div mat-dialog-actions>
-      <button mat-button mat-dialog-close>No</button>
-      <button mat-button (click)="submitForm()">Si</button>
+      <button mat-flat-button mat-dialog-close>No</button>
+      <button mat-flat-button (click)="submitForm()">Si</button>
     </div>
   </section>
   `,
 })
 export class DialogComponent {
   
-    Titles: string = 'Enviar formulario';
-    Content: string = '¿Está seguro de que desea enviar el formulario?';
+    Titles: string = 'Agregar curso';
+    Content: string = '¿Estás seguro de agregar este curso?';
 
     constructor(private matDialogRef: MatDialogRef<DialogComponent>) {}
 
