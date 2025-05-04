@@ -1,44 +1,95 @@
 import { Injectable } from '@angular/core';
 import { Student } from '../../feature/dashboard/student/interface/interface';
 import { BehaviorSubject } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment.development';
 
 @Injectable({
   providedIn: 'root',
 })
 export class StudentService {
-  private dataSubject = new BehaviorSubject<Student[]>([]);
-  StudentList$ = this.dataSubject.asObservable();
+  private studentSubject = new BehaviorSubject<Student[]>([]);
+  StudentList$ = this.studentSubject.asObservable();
 
-  private _studentList: Student[] = [
-    {
-      nombre: 'Juan',
-      apellido: 'Pérez',
-      email: 'pereas22@gmail.com',
-      edad: 25,
-      curso: 'Angular',
-    },
+  studentEdit = new BehaviorSubject<Student | null>(null);
+  studentEdit$ = this.studentEdit.asObservable();
 
-    {
-      nombre: 'Ana',
-      apellido: 'Gómez',
-      email: 'gomeana@gmail.com',
-      edad: 30,
-      curso: 'React',
-    },
-  ];
+  constructor(private http: HttpClient) {}
+
+  private _studentList: Student[] = [];
 
   get studentList(): Student[] {
     return this._studentList;
   }
 
+  deleteStudent(id: string) {
+    const confirmDelete = window.confirm(
+      '¿Estás seguro de que deseas eliminar este estudiante?'
+    );
+    if (!confirmDelete) {
+      return;
+    }
+    this.http
+      .delete<Student>(`${environment.apiUrl}/studentList/${id}`)
+      .subscribe({
+        next: (Student) => {
+          this._studentList = this._studentList.filter((s) => s.id !== id);
+          this.studentSubject.next(this._studentList);
+        },
+        error: (error) => {
+          console.error('Error eliminando estudiante:', error);
+        },
+      });
+  }
+
+  setUpdateStudent(id: string) {
+    const student = this._studentList.find((student) => student.id === id);
+    if (!student) {
+      alert('No se encontró el estudiante');
+      return;
+    }
+    this.studentEdit.next(student);
+  }
+
+  updateStudent(student: Student): void {
+    this.http
+      .put<Student>(`${environment.apiUrl}/studentList/${student.id}`, student)
+      .subscribe({
+        next: (updatedStudent) => {
+          this._studentList = this._studentList.map((s) =>
+            s.id === updatedStudent.id ? updatedStudent : s
+          );
+          this.studentSubject.next(this._studentList);
+          this.studentEdit.next(null);
+        },
+        error: (error) => {
+          console.error('Error actualizando estudiante:', error);
+        },
+      });
+  }
+
   getStudentListobs() {
-    this.dataSubject.next(this._studentList);
+    this.studentSubject.next(this._studentList);
+    this.http.get<Student[]>(`${environment.apiUrl}/studentList`).subscribe({
+      next: (students) => {
+        this._studentList = students;
+        this.studentSubject.next(this._studentList);
+      },
+      error: (error) => {
+        console.error('Error obteniendo la lista de estudiantes:', error);
+      },
+    });
   }
 
-  addStudentListobs(Student: Student) {
-    this._studentList = [...this._studentList, Student];
-    this.dataSubject.next(this._studentList);
+  addStudentListobs(Student: Student): void {
+    this.http.post<Student[]>(`${environment.apiUrl}/studentList`, Student).subscribe({
+      next: (students) => {
+        this._studentList = [...this._studentList, Student];
+        this.studentSubject.next(this._studentList);
+      },
+      error: (error) => {
+        console.error('Error adding student:', error);
+      },
+    });
   }
-
-  constructor() {}
 }

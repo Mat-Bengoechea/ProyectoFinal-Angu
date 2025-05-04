@@ -14,6 +14,7 @@ import { CoursesModule } from "./feature/dashboard/courses/courses.module";
 import { DashboardModule } from './feature/dashboard/dashboard.module';
 import { AuthModule } from './feature/auth/auth.module';
 import { HomeComponent } from './feature/dashboard/home/home.component';
+import { provideHttpClient, withFetch } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,7 @@ import { HomeComponent } from './feature/dashboard/home/home.component';
     AuthModule,
 ],
 
-  
+  providers: [provideHttpClient(withFetch())],
   bootstrap: [AppComponent] ,
 })
 export class AppModule {}

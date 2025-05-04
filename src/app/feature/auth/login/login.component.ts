@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
 import { validateEmail } from '../../../shared/utils/validator';
 import { MatDialogRef } from '@angular/material/dialog';
+import { Optional } from '@angular/core';
 
 
 
@@ -20,7 +21,7 @@ loginForm: FormGroup
 constructor(private fb:FormBuilder,
   private router: Router,
   private authService: AuthService,
-  private MatDialogRef: MatDialogRef<LoginComponent>,
+  @Optional() private MatDialogRef: MatDialogRef<LoginComponent>,
 
 
 ){
@@ -40,7 +41,11 @@ submit() {
       return;
     }
 
-    this.MatDialogRef.close();
+    if (this.MatDialogRef) {
+      this.MatDialogRef.close();
+    } else {
+      this.router.navigate(['/dashboard']);
+    }
   }
 }
 }

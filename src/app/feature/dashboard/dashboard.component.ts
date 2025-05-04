@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { Student } from './student/interface/interface';
 import { LoginComponent } from '../auth/login/login.component';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'dashboard',
@@ -32,7 +33,8 @@ export class DashboardComponent {
     throw new Error('Method not implemented.');
     }
 
-    constructor(private dialog: MatDialog) { }
+    constructor(private dialog: MatDialog) { 
+    }
 
 
     openFormDialog(student?: Student): void {

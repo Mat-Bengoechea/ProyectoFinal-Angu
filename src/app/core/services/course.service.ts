@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Course } from '../../feature/dashboard/courses/interface/course';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment.development';
 
 @Injectable({
   providedIn: 'root',
@@ -13,45 +15,91 @@ export class CourseService {
   private coursesTitlesSubject = new BehaviorSubject<string[]>([]);
   coursesTitles$ = this.coursesTitlesSubject.asObservable();
 
-  private _courses: Course[] = [
-    {
-      title: 'Angular',
-      description:
-        'Framework completo de desarrollo frontend creado por Google. Usa TypeScript, tiene una estructura rígida y muchas herramientas integradas (como inyección de dependencias y enrutador).',
-    },
-    {
-      title: 'React',
-      description:
-        'Biblioteca desarrollada por Meta (Facebook) para construir interfaces de usuario. Usa JavaScript y JSX, es flexible y se basa en componentes reutilizables.',
-    },
-    {
-      title: 'Vue',
-      description:
-        'Framework progresivo que permite construir interfaces gradualmente. Es simple de aprender, combina HTML, CSS y JS en componentes, y tiene una curva de aprendizaje suave.',
-    },
-    {
-      title: 'Svelte',
-      description: 'Framework innovador que compila los componentes a JavaScript puro en tiempo de desarrollo, eliminando el runtime. Muy ligero y rápido.',
-    },
-    {
-      title: 'Ember',
-      description: 'Framework completo para aplicaciones ambiciosas. Ofrece convenciones fuertes y muchas herramientas listas para usar, aunque es más pesado y menos popular hoy en día.',
-    },
-  ];
+  courseEdit = new BehaviorSubject<Course | null>(null);
+  courseEdit$ = this.courseEdit.asObservable();
 
-  getCourses(): void {
+  constructor(private http: HttpClient) {}
+
+  private _courses: Course[] = [];
+
+
+  setUpdateCourse(id : string){
+    const course = this._courses.find((course) => course.id === id);
+    if (!course){
+      alert('No se encontró el curso');
+      return;
+    }
+    this.courseEdit.next(course);
+  } 
+
+  updateCourse (course: Course) {
+    this.http.put<Course>(`${environment.apiUrl}/courses/${course.id}`, course)
+    .subscribe({
+      next: (course) => {
+        this._courses = this._courses.map((c) => 
+        c.id === course.id ? course : c);
+        this.coursesSubject.next(this._courses);
+        this.coursesTitlesSubject.next(
+          this._courses.map((course) => course.title)
+        );
+        this.courseEdit.next(null);
+      }
+    , error: (error) => {
+      console.error('Error updating course:', error);
+    }
+    })
+  }
+
+  getCourses() {
     this.coursesSubject.next(this._courses);
+    this.http
+      .get<Course[]>(`${environment.apiUrl}/courses`)
+      .subscribe((courses) => {
+        this._courses = courses;
+        this.coursesSubject.next(this._courses);
+        this.coursesTitlesSubject.next(
+          this._courses.map((course) => course.title)
+        );
+      });
   }
 
   getCoursesTitles(): void {
     const names = this._courses.map((course) => course.title);
     this.coursesTitlesSubject.next(names);
   }
-  
+
   addCourse(course: Course): void {
-    this._courses = [...this._courses, course];
-    this.coursesSubject.next(this._courses);
-    this.coursesTitlesSubject.next(this._courses.map((course) => course.title));
+    this.http.post<Course>(`${environment.apiUrl}/courses`, course).subscribe({
+      next: (course) => {
+        this._courses = [...this._courses, course];
+        this.coursesSubject.next(this._courses);
+        this.coursesTitlesSubject.next(this._courses.map((course) => course.title));
+    
+      },
+      error: (error) => {
+        console.error('Error adding course:', error);
+      },
+    });
+  }
+
+  deleteCourse(id: string) {
+    const confirmDelete = window.confirm(
+      '¿Estás seguro de que deseas eliminar este curso?');
+    if (!confirmDelete) {
+      return;
+    }
+    this.http.delete<Course>(`${environment.apiUrl}/courses/${id}`).subscribe({
+      next: (course) => {
+        this._courses = this._courses.filter((course) => course.id !== id);
+        this.coursesSubject.next(this._courses);
+        this.coursesTitlesSubject.next(
+          this._courses.map((course) => course.title)
+        );
+      },
+      error: (error) => {
+        console.error('Error deleting course:', error);
+      },
+    });
   }
 
   getByTitle(title: string) {

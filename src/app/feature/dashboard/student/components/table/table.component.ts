@@ -25,18 +25,17 @@ export class TableComponent implements OnInit {
     this.studenlistservice.getStudentListobs();
   }
 
-  onEdit(student: Student) {
+  
+  editStudent(id: string) {
+    this.studenlistservice.setUpdateStudent(id);
     this.dialog.open(FormComponent, {
       width: '500px',
       height: 'auto',
       disableClose: false,
-      data: student,
     });
     }
 
-    onDelete(student: Student) {
-      if (confirm('¿Estás seguro de que deseas eliminar este estudiante?')) {
-        this.TableStudent = this.TableStudent.filter((s) => s !== student);
-      }
-    }
+    deleteStudent(id : string) {
+      this.studenlistservice.deleteStudent(id);
+   }
 }

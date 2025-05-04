@@ -5,6 +5,7 @@ import { DialogComponent } from '../../../../../shared/components/dialogo/dialog
 import { StudentService } from '../../../../../core/services/student.service';
 import { validarApellido, validarnombre, validateEmail } from '../../../../../shared/utils/validator';
 import { Student } from '../../interface/interface';
+import { v4 as uuid } from 'uuid';
 
 @Component({
   selector: 'app-form',
@@ -14,6 +15,8 @@ import { Student } from '../../interface/interface';
 })
 export class FormComponent {
  myform: FormGroup;
+ isEdit: boolean = false;
+
 
   constructor(
     private matDialog: MatDialog,
@@ -22,25 +25,45 @@ export class FormComponent {
     @Inject(MAT_DIALOG_DATA) public studentData: Student
   ) {
     this.myform = this.fb.group({
+      id: [''],
       nombre: ['', [Validators.required, Validators.minLength(3), validarnombre]],
       apellido: ['', [Validators.required, Validators.minLength(3) , validarApellido]],
       email: ['', [Validators.required, Validators.email, validateEmail]],
       edad: ['', [Validators.required, Validators.min(1)]],
       curso: ['', [Validators.required]],
     });
+
+    this.StudentService.studentEdit$.subscribe((student) => {
+      if (student) {
+        console.log('Cargando estudiante para edición:', student);
+        this.myform.patchValue({
+          id: student.id,
+          nombre: student.nombre,
+          apellido: student.apellido,
+          email: student.email,
+          edad: student.edad,
+          curso: student.curso,
+        });
+        this.isEdit = true;
+      } else {
+        this.myform.reset();
+        this.isEdit = false;
+      }
+    });
   }
 
   submitForm() {
     if (this.myform.valid) {
-      this.matDialog
-        .open(DialogComponent)
-        .afterClosed()
-        .subscribe((confirmed: boolean) => {
-          if (confirmed) {
-            this.StudentService.addStudentListobs(this.myform.value);
-            this.myform.reset();
-          }
+      if (this.isEdit) {
+        this.StudentService.updateStudent(this.myform.value);
+      } else {
+        this.myform.patchValue({
+          id: uuid(), 
         });
+        this.StudentService.addStudentListobs(this.myform.value);
+      }
+      this.myform.reset();
+      this.isEdit = false;
     } else {
       console.error('Formulario inválido');
     }

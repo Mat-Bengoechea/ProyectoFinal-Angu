@@ -14,7 +14,7 @@ export function validarnombre(control: AbstractControl): ValidationErrors | null
   }
 
   export function validarApellido(control: AbstractControl): ValidationErrors | null {
-    const nombreApellidoRegex = /^[a-zA-Z\s]+$/; 
+    const nombreApellidoRegex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/; 
     const valid = nombreApellidoRegex.test(control.value);
     return valid ? null : { invalidNombreApellido: true }; 
   }

@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { userService } from '../../../core/services/UserService.service';
 import { Observable } from 'rxjs';
+import { AuthService } from '../../../core/services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'sidebar',
@@ -11,8 +13,11 @@ import { Observable } from 'rxjs';
 export class SidebarComponent {
 userName$: Observable<string>;
 
-constructor(private userService: userService) { 
+authUser: Observable<any>;
+
+constructor(private userService: userService, private authService: AuthService, private router: Router) { 
   this.userName$ = this.userService.userName$;
+  this.authUser = this.authService.authUser$;
 }
 
 }
