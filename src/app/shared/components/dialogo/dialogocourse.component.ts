@@ -18,12 +18,12 @@ import { MatDialogRef, MatDialog } from '@angular/material/dialog';
   </section>
   `,
 })
-export class DialogComponent {
+export class DialogcourseComponent {
   
     Titles: string = 'Agregar curso';
     Content: string = '¿Estás seguro de agregar este curso?';
 
-    constructor(private matDialogRef: MatDialogRef<DialogComponent>) {}
+    constructor(private matDialogRef: MatDialogRef<DialogcourseComponent>) {}
 
   submitForm(): void {
     this.matDialogRef.close(true);

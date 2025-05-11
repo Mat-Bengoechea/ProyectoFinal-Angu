@@ -19,4 +19,15 @@ export function validarnombre(control: AbstractControl): ValidationErrors | null
     return valid ? null : { invalidNombreApellido: true }; 
   }
 
+  export function validartitle(control: AbstractControl): ValidationErrors | null {
+    const titleRegex = /^[a-zA-Z0-9\s]+$/; 
+    const valid = titleRegex.test(control.value);
+    return valid ? null : { invalidTitle: true }; 
+  }
+
+  export function validardescripcion(control: AbstractControl): ValidationErrors | null {
+    const descripcionRegex = /^[a-zA-Z0-9\s]+$/; 
+    const valid = descripcionRegex.test(control.value);
+    return valid ? null : { invalidDescripcion: true }; 
+  }
 

@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { DialogComponent } from '../../../../../shared/components/dialogo/dialogocourse.component';
+import { DialogcourseComponent } from '../../../../../shared/components/dialogo/dialogocourse.component';
 import { CourseService } from '../../../../../core/services/course.service';
 import { v4 as uuid } from 'uuid';
 import { Course } from '../../interface/course';
+import { validardescripcion, validartitle } from '../../../../../shared/utils/validator';
 
 @Component({
   selector: 'course-form',
@@ -23,8 +24,9 @@ export class FormComponent {
   ) {
     this.formGroup = this.fb.group({
       id: [''],
-      title: [''],
-      description: [''],
+      title: ['', [Validators.required, Validators.minLength(3),validartitle]],
+      description: ['', [Validators.required, Validators.minLength(15), validardescripcion]],
+      time: ['', [Validators.required, Validators.pattern('^[0-9]*$')]],
     });
 
     this.courseService.courseEdit$.subscribe((course) => {
@@ -33,6 +35,7 @@ export class FormComponent {
           id: course.id,
           title: course.title,
           description: course.description,
+          time: course.time,
         });
         this.isEdit = true;
       } else {
@@ -48,7 +51,7 @@ export class FormComponent {
       });
     }
     this.matDialog
-      .open(DialogComponent)
+      .open(DialogcourseComponent)
       .afterClosed()
       .subscribe({
         next: (confirmed: boolean) => {

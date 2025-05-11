@@ -29,36 +29,41 @@
     {
       "id": "a1b2c3d4-e5f6-7g8h-9i0j-k1l2m3n4o5p6",
       "title": "Angular",
-      "description": "Framework completo de desarrollo frontend creado por Google. Usa TypeScript, tiene una estructura rígida y muchas herramientas integradas (como inyección de dependencias y enrutador)."
+      "description": "Framework completo de desarrollo frontend creado por Google. Usa TypeScript, tiene una estructura rígida y muchas herramientas integradas (como inyección de dependencias y enrutador).",
+      "time": "40"
     },
     {
       "id": "c3d4e5f6-g7h8-9i0j-1k2l-m3n4o5p6q7r8",
       "title": "Vue",
-      "description": "Framework progresivo que permite construir interfaces gradualmente. Es simple de aprender, combina HTML, CSS y JS en componentes, y tiene una curva de aprendizaje suave."
+      "description": "Framework progresivo que permite construir interfaces gradualmente. Es simple de aprender, combina HTML, CSS y JS en componentes, y tiene una curva de aprendizaje suave.",
+      "time": "30 "
     },
     {
       "id": "d4e5f6g7-h8i9-0j1k-2l3m-n4o5p6q7r8s9",
       "title": "Svelte",
-      "description": "Framework innovador que compila los componentes a JavaScript puro en tiempo de desarrollo, eliminando el runtime. Muy ligero y rápido."
+      "description": "Framework innovador que compila los componentes a JavaScript puro en tiempo de desarrollo, eliminando el runtime. Muy ligero y rápido.",
+      "time": "25 "
     },
     {
       "id": "e5f6g7h8-i9j0-1k2l-3m4n-o5p6q7r8s9t0",
       "title": "Ember",
-      "description": "Framework completo para aplicaciones ambiciosas. Ofrece convenciones fuertes y muchas herramientas listas para usar, aunque es más pesado y menos popular hoy en día."
+      "description": "Framework completo para aplicaciones ambiciosas. Ofrece convenciones fuertes y muchas herramientas listas para usar, aunque es más pesado y menos popular hoy en día.",
+      "time": "50 "
     },
     {
-      "id": "b4bf",
+      "id": "a430780e-da50-44f3-90aa-7ba4c2a4b749",
       "title": "React",
-      "description": "es una biblioteca de JavaScript para construir interfaces de usuario mediante componentes reutilizables, rápida y eficiente gracias al uso del Virtual DOM."
+      "description": "es una biblioteca de JavaScript para construir interfaces de usuario mediante componentes reutilizables, rápida y eficiente gracias al uso del Virtual DOM.",
+      "time": "30"
     }
   ],
   "studentList": [
     {
       "id": "g2b3c4d5-e6f7-8g9h-0i1j-k2l3m4n5o6p7",
       "nombre": "Ana",
-      "apellido": "Gómez",
+      "apellido": "Gómes",
       "email": "gomeana@gmail.com",
-      "edad": 26,
+      "edad": 25,
       "curso": "Svelte"
     },
     {
@@ -70,20 +75,20 @@
       "curso": "Vue"
     },
     {
-      "id": "f27e497a-59bf-4b38-8144-504c1af3c75d",
-      "nombre": "Mateo",
-      "apellido": "Royal",
-      "email": "royalmna@gmail.com",
-      "edad": 22,
-      "curso": "Ember"
-    },
-    {
       "id": "e04e91be-14d0-40cf-aed7-ee335429b4ef",
       "nombre": "Tomas",
       "apellido": "Fabiani",
       "email": "fabianit@gmail.com",
       "edad": 26,
       "curso": "Svelte"
+    },
+    {
+      "id": "acf4afe4-69d5-4b8d-ba5b-891d4a310ee2",
+      "nombre": "Mateo",
+      "apellido": "Olimeras",
+      "email": "olimat@gmail.com",
+      "edad": 23,
+      "curso": "React"
     }
   ]
 }

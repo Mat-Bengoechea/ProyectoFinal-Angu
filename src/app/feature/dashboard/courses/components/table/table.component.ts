@@ -9,7 +9,7 @@ import { CourseService } from '../../../../../core/services/course.service';
   styleUrl: './table.component.scss',
 })
 export class TableComponent implements OnInit {
-  displayedColumns: string[] = ['title', 'description', 'actions'];
+  displayedColumns: string[] = ['title', 'description', 'time', 'actions'];
   dataSource: Course[] = [];
 
   constructor(

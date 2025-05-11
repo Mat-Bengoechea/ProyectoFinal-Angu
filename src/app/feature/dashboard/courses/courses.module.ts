@@ -5,6 +5,7 @@ import { DetailsComponent } from './pages/details/details.component';
 import { TableComponent } from './components/table/table.component';
 import { FormComponent } from './components/form/form.component';
 import { SharedModule } from '../../../shared/shared.module';
+import { DialogcourseComponent } from '../../../shared/components/dialogo/dialogocourse.component';
 
 
 
@@ -15,8 +16,7 @@ import { SharedModule } from '../../../shared/shared.module';
     DetailsComponent,
     FormComponent,
     TableComponent,
-    
-
+    DialogcourseComponent
   ],
   imports: [
     CommonModule, SharedModule,

@@ -2,11 +2,30 @@
     <div>
       <mat-form-field>
         <mat-label>Titulo</mat-label>
-        <input matInput formControlName="title" />
+        <input matInput formControlName="title"  required/>
+        <mat-error
+        *ngIf="formGroup.get('title')?.hasError('required') && formGroup.get('title')?.touched">Campo
+        requerido</mat-error>
+        <mat-error *ngIf="formGroup.get('title')?.hasError('minlength')">
+          <small class="text-danger">El Titulo debe tener al menos 3 caracteres</small></mat-error>
       </mat-form-field>
       <mat-form-field>
         <mat-label>Descripción</mat-label>
-        <input matInput formControlName="description" />
+        <input matInput formControlName="description" required/>
+        <mat-error
+        *ngIf="formGroup.get('description')?.hasError('required') && formGroup.get('description')?.touched">Campo
+        requerido</mat-error>
+        <mat-error *ngIf="formGroup.get('description')?.hasError('minlength')">
+          <small class="text-danger">La Descripción debe tener al menos 15 caracteres</small></mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Tiempo de cursado</mat-label>
+        <input matInput formControlName="time" required/>
+        <mat-error
+        *ngIf="formGroup.get('time')?.hasError('required') && formGroup.get('time')?.touched">Campo
+        requerido</mat-error>
+        <mat-error *ngIf="formGroup.get('time')?.hasError('pattern')">
+          <small class="text-danger">Solo se acepta numeros</small></mat-error>
       </mat-form-field>
   
       <button mat-flat-button type="submit">{{isEdit ? "Editar" : "Crear"}} Curso</button>

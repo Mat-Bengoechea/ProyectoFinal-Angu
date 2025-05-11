@@ -6,6 +6,7 @@ import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { SharedModule } from '../../../shared/shared.module';
 import { MatDialogModule } from '@angular/material/dialog';
 import { StudentComponent } from './student.component';
+import { DialogComponent } from '../../../shared/components/dialogo/dialogo.component';
 
 
 
@@ -14,6 +15,7 @@ import { StudentComponent } from './student.component';
     FormComponent,
     TableComponent,
     StudentComponent,
+    DialogComponent
   ],
   imports: [
     CommonModule,
