@@ -2,6 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { Course } from '../../interface/course';
 import { CourseService } from '../../../../../core/services/course.service';
 
+
 @Component({
   selector: 'course-table',
   standalone: false,
@@ -26,7 +27,7 @@ export class TableComponent implements OnInit {
         this.dataSource = data;
       },
       error: (error) => {
-        console.error('Error fetching courses:', error);
+        console.error('Error al obtener los cursos:', error);
       },
     });
   }

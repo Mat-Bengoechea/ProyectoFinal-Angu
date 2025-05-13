@@ -44,8 +44,8 @@ export class AuthService {
     if (!user) {
       return false;
     }
-
-    this._authUser.next(user);
+const { password: _, ...userWithoutPassword } = user;
+  this._authUser.next(userWithoutPassword);
 
     localStorage.setItem('token', this.TOKEN);
     
@@ -65,5 +65,6 @@ export class AuthService {
 
   logout() {
     this._authUser.next(null);
+    localStorage.removeItem('token');
   }
 }

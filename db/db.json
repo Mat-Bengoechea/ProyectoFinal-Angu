@@ -51,9 +51,9 @@
       "time": "50 "
     },
     {
-      "id": "a430780e-da50-44f3-90aa-7ba4c2a4b749",
+      "id": "71cefc02-28c8-48cd-b8e6-b2af138932c6",
       "title": "React",
-      "description": "es una biblioteca de JavaScript para construir interfaces de usuario mediante componentes reutilizables, rápida y eficiente gracias al uso del Virtual DOM.",
+      "description": "es una biblioteca de JavaScript para crear interfaces de usuario, particularmente para aplicaciones web de una sola página.",
       "time": "30"
     }
   ],
@@ -85,7 +85,7 @@
     {
       "id": "acf4afe4-69d5-4b8d-ba5b-891d4a310ee2",
       "nombre": "Mateo",
-      "apellido": "Olimeras",
+      "apellido": "Olivera",
       "email": "olimat@gmail.com",
       "edad": 23,
       "curso": "React"

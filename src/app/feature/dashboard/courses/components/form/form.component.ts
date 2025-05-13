@@ -4,8 +4,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { DialogcourseComponent } from '../../../../../shared/components/dialogo/dialogocourse.component';
 import { CourseService } from '../../../../../core/services/course.service';
 import { v4 as uuid } from 'uuid';
-import { Course } from '../../interface/course';
-import { validardescripcion, validartitle } from '../../../../../shared/utils/validator';
+import {
+  validardescripcion,
+  validartitle,
+} from '../../../../../shared/utils/validator';
 
 @Component({
   selector: 'course-form',
@@ -24,11 +26,16 @@ export class FormComponent {
   ) {
     this.formGroup = this.fb.group({
       id: [''],
-      title: ['', [Validators.required, Validators.minLength(3),validartitle]],
-      description: ['', [Validators.required, Validators.minLength(15), validardescripcion]],
+      title: ['', [Validators.required, Validators.minLength(3), validartitle]],
+      description: [
+        '',
+        [Validators.required, Validators.minLength(15), validardescripcion],
+      ],
       time: ['', [Validators.required, Validators.pattern('^[0-9]*$')]],
     });
-
+    console.log('Form Group Initial Values:', this.formGroup.value);
+  }
+  ngOnInit(): void {
     this.courseService.courseEdit$.subscribe((course) => {
       if (course) {
         this.formGroup.patchValue({
@@ -45,9 +52,9 @@ export class FormComponent {
   }
 
   submit() {
-    if(!this.isEdit){
+    if (!this.isEdit) {
       this.formGroup.patchValue({
-        id: uuid()
+        id: uuid(),
       });
     }
     this.matDialog
@@ -63,7 +70,12 @@ export class FormComponent {
               this.courseService.addCourse(this.formGroup.value);
             }
 
-            this.formGroup.reset();
+            this.formGroup.reset({
+              id: '',
+              title: '',
+              description: '',
+              time: '',
+            });
             this.isEdit = false;
           }
         },

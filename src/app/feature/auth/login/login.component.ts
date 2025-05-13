@@ -26,8 +26,8 @@ constructor(private fb:FormBuilder,
 
 ){
   this.loginForm = this.fb.group({
-    email: ['', [Validators.required, Validators.email, validateEmail]],
-    password: ['', [Validators.required, Validators.minLength(4), Validators.pattern(/^[a-zA-Z0-9]+$/)]],
+    email: ['mateo@gmail.com', [Validators.required, Validators.email, validateEmail]],
+    password: ['1234', [Validators.required, Validators.minLength(4), Validators.pattern(/^[a-zA-Z0-9]+$/)]],
   })
 }
 submit() {
