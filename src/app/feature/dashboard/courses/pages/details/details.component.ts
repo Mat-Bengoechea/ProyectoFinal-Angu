@@ -2,7 +2,9 @@ import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CourseService } from '../../../../../core/services/course.service';
 import { Course } from '../../interface/course';
-
+import { selectCourseByTitle } from '../../store/course.selectors';
+import { Store } from '@ngrx/store';
+import { RootState } from '../../../../../core/services/store';
 @Component({
   selector: 'app-details',
   standalone: false,
@@ -15,23 +17,27 @@ export class DetailsComponent {
   error: string | undefined;
 
   constructor(
+    private store: Store<RootState>,
     private courseService: CourseService,
     private activatedRoute: ActivatedRoute
   ) {
     const title = this.activatedRoute.snapshot.paramMap.get('title');
-    console.log(title);
+    this.store.select(selectCourseByTitle(title!)).subscribe({
+      next: (course)=> {
+        this.isLoading = false;
+        if (course) {
+          this.course = course;
+        }
+        else {
+          this.error = 'No se encontró el curso';
+        }
+      },
+      error: () => {
+        this.isLoading = false;
+        this.error = 'Error al cargar el curso';
+      }
+    })
 
-    this.courseService.getByTitle(title!).subscribe({
-      next: (course) => {
-        this.isLoading = false;
-        this.course = course;
-        console.log(course);
-      },
-      error: (error) => {
-        this.isLoading = false;
-        console.error(error);
-        this.error = error;
-      },
-    });
+
   }
 }

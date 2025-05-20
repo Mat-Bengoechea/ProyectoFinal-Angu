@@ -6,6 +6,9 @@ import { CoursesComponent } from './courses/courses.component';
 import { DetailsComponent } from './courses/pages/details/details.component';
 import { HomeComponent } from './home/home.component';
 import { adminGuard } from '../../core/guards/admin.guard';
+import { UsersComponent } from './users/users.component';
+import { CourseuserComponent } from './courseuser/courseuser.component';
+import { userGuard } from '../../core/guards/user.guard';
 
 const routes: Routes = [
   {
@@ -21,6 +24,18 @@ const routes: Routes = [
       {
         path: 'courses',
         component: CoursesComponent,
+        canActivate: [adminGuard],
+      },
+      {
+        path: 'coursesuser',
+        component: CourseuserComponent,
+        canActivate: [userGuard],
+      },
+
+      {
+        path: 'users',
+        component: UsersComponent,
+        canActivate: [adminGuard],
       },
 
       {

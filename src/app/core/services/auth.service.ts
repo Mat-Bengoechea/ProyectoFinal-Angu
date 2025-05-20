@@ -1,7 +1,10 @@
 import { Injectable } from '@angular/core';
 import { User } from '../../feature/auth/interfaces/User';
-import { Router } from '@angular/router';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, map, Observable, of } from 'rxjs';
+import { RootState } from './store/index';
+import { Store } from '@ngrx/store';
+import { setAuthUser, unsetAuthUser } from './store/auth/auth.actions';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
@@ -12,49 +15,33 @@ export class AuthService {
 
   private TOKEN = 'my-secret-token';
 
-  private users = [
-    {
-      email: 'alfro@gmail.com',
-      password: '07291',
-      role: 'admin',
-    },
-    {
-      email: 'mateo@gmail.com',
-      password: '1234',
-      role: 'admin',
-    },
-    {
-      email: 'rosty@gmail.com',
-      password: '23323',
-      role: 'user',
-    },
-    {
-      email: 'cami@gmail.com',
-      password: '53434',
-      role: 'user',
-    },
-  ]
-
-  constructor() {}
-
-  login(email: string, password: string): boolean {
- const user = this.users.find(
-      (user) => user.email === email && user.password === password
-    );
-    if (!user) {
-      return false;
+  constructor(private store: Store<RootState>, private http: HttpClient) {
+    const user = localStorage.getItem('user');
+    if (user) {
+      this._authUser.next(JSON.parse(user));
     }
-const { password: _, ...userWithoutPassword } = user;
-  this._authUser.next(userWithoutPassword);
+  }
+  
+    login(email: string, password: string): Observable<User | null> {
+    return this.http.get<User[]>(`/api/users?email=${email}&password=${password}`).pipe(
+      map(users => users.length ? users[0] : null)
+    );
+  }
 
-    localStorage.setItem('token', this.TOKEN);
-    
+  register(user: User): Observable<User>{
+    return this.http.post<User>('/api/users', user);
+  }
 
-    return true;
+  updateUser(id: string, changes: Partial<User>): Observable<User>{
+    return this.http.patch<User>(`/api/users/${id}`, changes);
+  }
+
+  deleteUser(id: string): Observable<void>{
+    return this.http.delete<void>(`/api/users/${id}`);
   }
 
   getRole() {
-    return this._authUser;
+    return this._authUser.asObservable();
   }
 
   verifyToken(): Observable<boolean> {
@@ -66,5 +53,7 @@ const { password: _, ...userWithoutPassword } = user;
   logout() {
     this._authUser.next(null);
     localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    this.store.dispatch(unsetAuthUser());
   }
 }

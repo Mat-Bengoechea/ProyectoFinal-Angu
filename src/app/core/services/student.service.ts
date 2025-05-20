@@ -88,7 +88,7 @@ export class StudentService {
         this.studentSubject.next(this._studentList);
       },
       error: (error) => {
-        console.error('Error adding student:', error);
+        console.error('Error al agregar estudiante:', error);
       },
     });
   }

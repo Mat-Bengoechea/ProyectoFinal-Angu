@@ -1,0 +1,39 @@
+<form [formGroup]="formuser" (ngSubmit)="submitFormuser()">
+    <div class="form-user">
+        <h2 class="title">Formulario de usuario</h2>
+        <mat-form-field>
+            <mat-label>Nombre y Apellido</mat-label>
+            <input matInput formControlName="fullname" required>
+            <mat-error *ngIf="formuser.get('fullname')?.hasError('required') && formuser.get('fullname')?.touched">Campo
+                requerido</mat-error>
+            <mat-error *ngIf="formuser.get('fullname')?.hasError('minlength')">
+                <small class="text-danger">El nombre debe tener al menos 3 caracteres</small></mat-error>
+                </mat-form-field>
+            <mat-form-field>
+                <mat-label>Email</mat-label>
+                <input matInput formControlName="email" required email>
+                <mat-error *ngIf="formuser.get('email')?.hasError('required') && formuser.get('email')?.touched">Campo
+                    requerido</mat-error>
+                <mat-error *ngIf="formuser.get('email')?.hasError('email')">
+                    <small class="text-danger">El email no es valido</small></mat-error>
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Contraseña</mat-label>
+                <input matInput formControlName="password" required>
+                <mat-error
+                    *ngIf="formuser.get('password')?.hasError('required') && formuser.get('password')?.touched">Campo
+                    requerido</mat-error>
+                <mat-error *ngIf="formuser.get('password')?.hasError('minlength')">
+                    <small class="text-danger">La contraseña debe tener al menos 6 caracteres</small></mat-error>
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Rol</mat-label>
+                <mat-select formControlName="role" required>
+                    <mat-option value="admin">Administrador</mat-option>
+                    <mat-option value="user">Usuario</mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <button mat-flat-button type="button" (click)="submitFormuser()" class="buttonuser">ENVIAR</button>
+    </div>
+</form>

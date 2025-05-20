@@ -19,10 +19,12 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { UserNamePipe } from './pipes/UserName.pipe';
 import { MatCardModule } from '@angular/material/card';
 import { RouterModule } from '@angular/router';
-
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { FooterComponent } from './components/footer/footer.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
-  declarations: [SidebarComponent, ToolbarComponent, ElementComponent, FullNamePipe, HideEmailPipe, DirectiveDirective, SidebarComponent],
+  declarations: [SidebarComponent, ToolbarComponent, ElementComponent, FullNamePipe, HideEmailPipe, DirectiveDirective, FooterComponent],
   imports: [
     CommonModule,
     MatSidenavModule,
@@ -35,10 +37,11 @@ import { RouterModule } from '@angular/router';
     MatTableModule,
     ReactiveFormsModule,
     MatDialogModule,
-    UserNamePipe,
-    MatCardModule,
     RouterModule,
-    MatCardModule
+    MatCardModule,
+    MatFormFieldModule,
+    UserNamePipe,
+    MatProgressSpinnerModule
   ],
 
   exports: [
@@ -60,7 +63,9 @@ import { RouterModule } from '@angular/router';
     MatCardModule,
     RouterModule,
     SidebarComponent,
-    MatCardModule
+    MatFormFieldModule,
+    FooterComponent,
+    MatProgressSpinnerModule
   ],
 
 })

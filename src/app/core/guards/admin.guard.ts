@@ -10,6 +10,15 @@ export const adminGuard: CanActivateFn = (route, state) => {
   return authService.getRole().pipe(
     map((user) => {
       if (!user) {
+        const localUser = localStorage.getItem('user');
+        if (localUser) {
+          user = JSON.parse(localUser);
+        }
+      }
+
+      console.log('Usuario en userGuard:', user);
+
+      if (!user) {
         router.navigate(['/auth']);
         return false;
       }

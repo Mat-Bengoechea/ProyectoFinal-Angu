@@ -6,11 +6,21 @@
             <mat-list-item>
                 <a mat-button routerLink="/dashboard" routerLinkActive="active-link">Inicio</a>
             </mat-list-item>
-            <mat-list-item>
-                <a mat-button routerLink="/dashboard/students" routerLinkActive="active-link" *ngIf="(authUser | async)?.role === 'admin'">Estudiantes</a>
+                        <mat-list-item *ngIf="(authUser$ | async)?.role === 'user'">
+                <a mat-button routerLink="/dashboard/coursesuser" routerLinkActive="active-link">Cursos</a>
             </mat-list-item>
-            <mat-list-item>
+            <mat-list-item *ngIf="(authUser$ | async)?.role === 'admin'">
+                <a mat-button routerLink="/dashboard/students" routerLinkActive="active-link" >Estudiantes</a>
+            </mat-list-item>
+            <mat-list-item *ngIf="(authUser$ | async)?.role === 'admin'">
                 <a mat-button routerLink="/dashboard/courses" routerLinkActive="active-link">Cursos</a>
             </mat-list-item>
-        </mat-list>
+                        <mat-list-item *ngIf="(authUser$ | async)?.role === 'admin'">
+                <a mat-button routerLink="/dashboard/users" routerLinkActive="active-link">Usuarios</a>
+            </mat-list-item>
+            <mat-list-item>
+                <button mat-flat-button color="warn" (click)="logout()">
+                    Cerrar sesión
+                </button>
+            </mat-list-item>    </mat-list>
     </ul>

@@ -6,6 +6,10 @@ import { TableComponent } from './components/table/table.component';
 import { FormComponent } from './components/form/form.component';
 import { SharedModule } from '../../../shared/shared.module';
 import { DialogcourseComponent } from '../../../shared/components/dialogo/dialogocourse.component';
+import { StoreModule } from '@ngrx/store';
+import { CourseFeature } from './store/course.reducer';
+import { EffectsModule } from '@ngrx/effects';
+import { CourseEffects } from './store/course.effects';
 
 
 
@@ -20,13 +24,14 @@ import { DialogcourseComponent } from '../../../shared/components/dialogo/dialog
   ],
   imports: [
     CommonModule, SharedModule,
+    StoreModule.forFeature(CourseFeature),
+    EffectsModule.forFeature([CourseEffects]),
   ],
   exports:[
 CoursesComponent,
   ],
 
   providers:[
-    { provide: 'Title', useValue: 'Courses' },
-  ]
+    { provide: 'Title', useValue: 'Courses' }  ]
 })
 export class CoursesModule { }

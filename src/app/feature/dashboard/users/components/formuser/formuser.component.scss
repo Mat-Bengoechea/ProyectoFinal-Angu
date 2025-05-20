@@ -1,0 +1,22 @@
+.form-user {
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 0 auto;
+  align-items: center; 
+  overflow: hidden;
+  padding: 20px;
+}
+
+.buttonuser{
+  width: 200px;
+  height: 50px;
+}
+
+.title{
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+}
+  

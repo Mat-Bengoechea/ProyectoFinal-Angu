@@ -19,8 +19,5 @@
     <h2 class="Empeza">Empezá hoy.</h2>
     <p class="text-empe">Aprendé con claridad. <br> Crecé con propósito.</p>
     <a class="buttonform" mat-flat-button routerLink="/dashboard/students" routerLinkActive="active-link" *ngIf="(authUser | async)?.role === 'admin'">Unirme ahora!!</a>
+    <a class="buttonform" mat-flat-button routerLink="/dashboard/coursesuser" routerLinkActive="active-link" *ngIf="(authUser | async)?.role === 'user'">Unirme ahora!!</a>
 </section>
-
-<div class="titulo-tabla">
-    <h2>DevKoders</h2>
-</div>

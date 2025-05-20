@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { SharedModule } from '../../shared/shared.module';
 import { LoginComponent } from './login/login.component';
 import { AuthRoutingModule } from './auth-routing.module';
+import { provideHttpClient, withFetch } from '@angular/common/http';
 
 
 
@@ -13,7 +14,10 @@ import { AuthRoutingModule } from './auth-routing.module';
   imports: [
     CommonModule,
     SharedModule,
-    AuthRoutingModule
-  ]
+    AuthRoutingModule,
+  ],
+   providers: [provideHttpClient(withFetch())],
+
+  exports: [LoginComponent],
 })
 export class AuthModule { }

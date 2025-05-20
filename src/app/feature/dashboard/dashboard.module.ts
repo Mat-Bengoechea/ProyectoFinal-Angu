@@ -4,17 +4,19 @@ import { SharedModule } from '../../shared/shared.module';
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { DashboardComponent } from './dashboard.component';
 import { MatIconModule } from '@angular/material/icon';
+import { CourseuserModule } from './courseuser/courseuser.module';
 
 
 @NgModule({
   declarations: [
-    DashboardComponent
+    DashboardComponent,
   ],
   imports: [
     CommonModule,
     DashboardRoutingModule,
     SharedModule,
-    MatIconModule
+    MatIconModule,
+    CourseuserModule
   ],
   exports: [
     DashboardComponent],

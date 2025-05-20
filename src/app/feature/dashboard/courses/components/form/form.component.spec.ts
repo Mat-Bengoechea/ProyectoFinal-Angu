@@ -3,7 +3,6 @@ import { FormComponent } from './form.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { CourseService } from '../../../../../core/services/course.service';
-import { provideHttpClient } from '@angular/common/http';
 import { SharedModule } from '../../../../../shared/shared.module';
 import { of } from 'rxjs';
 

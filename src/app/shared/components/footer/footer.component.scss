@@ -1,0 +1,20 @@
+footer {
+  margin: 50px auto 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 95%;
+  height: 100px;
+  border-radius: 50px 50px 0 0;
+  background: #212121;
+  padding: 1rem 0;
+  color: #fff;
+  font-family: "Azeret Mono", "Azeret Mono Bold";
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+}
+
+.footer-content {
+  text-align: center;
+}

@@ -3,9 +3,11 @@ import {FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
 import { validateEmail } from '../../../shared/utils/validator';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Optional } from '@angular/core';
-
+import { FormuserComponent } from '../../dashboard/users/components/formuser/formuser.component';
+import { Store } from '@ngrx/store';
+import { login } from '../../../core/services/store/auth/auth.actions';
 
 
 @Component({
@@ -21,31 +23,34 @@ loginForm: FormGroup
 constructor(private fb:FormBuilder,
   private router: Router,
   private authService: AuthService,
+  private dialog: MatDialog,
   @Optional() private MatDialogRef: MatDialogRef<LoginComponent>,
-
-
+  private store: Store
 ){
   this.loginForm = this.fb.group({
     email: ['mateo@gmail.com', [Validators.required, Validators.email, validateEmail]],
     password: ['1234', [Validators.required, Validators.minLength(4), Validators.pattern(/^[a-zA-Z0-9]+$/)]],
   })
 }
+
+
+openFormDialog(): void {
+  this.dialog.open(FormuserComponent, {
+    width: '500px',
+    height: 'auto',
+    disableClose: false,
+    data: null,
+  });};
+
+
 submit() {
-  if (this.loginForm.valid) {
-    const { email, password } = this.loginForm.value;
-
-    const isLoggedIn = this.authService.login(email, password);
-
-    if (!isLoggedIn) {
-      alert('Email o contraseña incorrectos');
-      return;
-    }
-
-    if (this.MatDialogRef) {
-      this.MatDialogRef.close();
+  if (this.loginForm.invalid) return;
+  const { email, password } = this.loginForm.value;
+  this.authService.login(email, password).subscribe(user => {
+    if (user) {
     } else {
-      this.router.navigate(['/dashboard']);
+      alert('Email o contraseña incorrectos');
     }
-  }
+  });
 }
 }

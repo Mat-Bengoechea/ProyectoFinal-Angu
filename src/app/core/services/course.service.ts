@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, delay, Observable } from 'rxjs';
 import { Course } from '../../feature/dashboard/courses/interface/course';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment.development';
@@ -33,34 +33,13 @@ export class CourseService {
   } 
 
   updateCourse (course: Course) {
-    this.http.put<Course>(`${environment.apiUrl}/courses/${course.id}`, course)
-    .subscribe({
-      next: (course) => {
-        this._courses = this._courses.map((c) => 
-        c.id === course.id ? course : c);
-        this.coursesSubject.next(this._courses);
-        this.coursesTitlesSubject.next(
-          this._courses.map((course) => course.title)
-        );
-        this.courseEdit.next(null);
-      }
-    , error: (error) => {
-      console.error('Error updating course:', error);
-    }
-    })
+   return this.http.put<Course>(`${environment.apiUrl}/courses/${course.id}`, course);
   }
 
   getCourses() {
     this.coursesSubject.next(this._courses);
-    this.http
-      .get<Course[]>(`${environment.apiUrl}/courses`)
-      .subscribe((courses) => {
-        this._courses = courses;
-        this.coursesSubject.next(this._courses);
-        this.coursesTitlesSubject.next(
-          this._courses.map((course) => course.title)
-        );
-      });
+   return this.http
+      .get<Course[]>(`${environment.apiUrl}/courses`).pipe(delay(3000))
   }
 
   getCoursesTitles(): void {
@@ -77,7 +56,7 @@ export class CourseService {
     
       },
       error: (error) => {
-        console.error('Error adding course:', error);
+        console.error('Error al agregar el curso:', error);
       },
     });
   }
@@ -97,22 +76,10 @@ export class CourseService {
         );
       },
       error: (error) => {
-        console.error('Error deleting course:', error);
+        console.error('Error al eliminar el curso:', error);
       },
     });
   }
 
-  getByTitle(title: string) {
-    return new Observable<Course>((subscriber) => {
-      const course = this._courses.find(
-        (course) => course.title.toLowerCase() === title.toLowerCase()
-      );
-
-      if (course) {
-        subscriber.next(course);
-      } else {
-        subscriber.error('No pudimos encontrar el curso que buscas');
-      }
-    });
-  }
+  
 }

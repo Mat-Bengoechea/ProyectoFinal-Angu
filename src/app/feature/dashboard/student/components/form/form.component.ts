@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { DialogComponent } from '../../../../../shared/components/dialogo/dialogo.component';
 import { StudentService } from '../../../../../core/services/student.service';
 import { validarApellido, validarnombre, validateEmail } from '../../../../../shared/utils/validator';
@@ -22,7 +22,8 @@ export class FormComponent {
     private matDialog: MatDialog,
     private StudentService: StudentService,
     private fb: FormBuilder,
-    @Inject(MAT_DIALOG_DATA) public studentData: Student
+    @Inject(MAT_DIALOG_DATA) public studentData: Student,
+    private dialogRef: MatDialogRef<FormComponent>,
   ) {
     this.myform = this.fb.group({
       id: [''],
@@ -64,6 +65,7 @@ export class FormComponent {
       }
       this.myform.reset();
       this.isEdit = false;
+      this.dialogRef.close();
     } else {
       console.error('Formulario inválido');
     }

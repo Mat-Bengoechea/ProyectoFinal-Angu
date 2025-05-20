@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, isDevMode } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -15,6 +15,12 @@ import { DashboardModule } from './feature/dashboard/dashboard.module';
 import { AuthModule } from './feature/auth/auth.module';
 import { HomeComponent } from './feature/dashboard/home/home.component';
 import { provideHttpClient, withFetch } from '@angular/common/http';
+import { UsersModule } from './feature/dashboard/users/users.module';
+import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { rootReducer } from './core/services/store';
+import { EffectsModule } from '@ngrx/effects';
+import { AuthEffects } from './core/services/store/auth/auth.effects';
 
 @NgModule({
   declarations: [
@@ -34,6 +40,10 @@ import { provideHttpClient, withFetch } from '@angular/common/http';
     CoursesModule,
     DashboardModule,
     AuthModule,
+    UsersModule,
+    StoreModule.forRoot(rootReducer, {}),
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }), 
+    EffectsModule.forRoot([AuthEffects]),   
 ],
 
   providers: [provideHttpClient(withFetch())],

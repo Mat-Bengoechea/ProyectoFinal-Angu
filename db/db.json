@@ -2,26 +2,30 @@
   "users": [
     {
       "id": "1e7b9c2e-8f6a-4c3a-9a6e-1d2f3a4b5c6d",
+      "fullname": "Alfro Perez",
       "email": "alfro@gmail.com",
-      "password": "07291",
+      "password": "D07291fdgfgdfd",
       "role": "admin"
     },
     {
       "id": "2a8c7d3f-9b5e-4d1a-8c7e-2f3b4a5c6d7e",
       "email": "mateo@gmail.com",
       "password": "1234",
-      "role": "admin"
+      "role": "admin",
+      "fullname": "Mateo Garcia"
     },
     {
       "id": "3b9d8e4f-1c6a-5d2b-9e7f-3c4a5b6d7e8f",
+      "fullname": "Rostio Fernandez",
       "email": "rosty@gmail.com",
-      "password": "23323",
+      "password": "23323445Ssd",
       "role": "user"
     },
     {
-      "id": "4c1e9f5a-2d7b-6e3c-1f8a-4d5b6c7e8f9a",
-      "email": "cami@gmail.com",
-      "password": "53434",
+      "id": "3d019bd3-2605-475c-8827-754eb6865a27",
+      "fullname": "Faustino Rodriuez",
+      "email": "Faustino@gmail.com",
+      "password": "Faustino2332423",
       "role": "user"
     }
   ],
@@ -55,6 +59,12 @@
       "title": "React",
       "description": "es una biblioteca de JavaScript para crear interfaces de usuario, particularmente para aplicaciones web de una sola página.",
       "time": "30"
+    },
+    {
+      "id": "278205bb-e2ed-4bea-9d03-97c9366548fd",
+      "title": "Rev 20",
+      "description": "23lasldvxcsmc2esdsafdsda",
+      "time": "24"
     }
   ],
   "studentList": [
