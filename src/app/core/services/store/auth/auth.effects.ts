@@ -23,6 +23,7 @@ export class AuthEffects {
             if (user) {
               localStorage.setItem('user', JSON.stringify(user));
               localStorage.setItem('token', 'my-secret-token');
+                this.authService.setAuthUser(user);
               this.router.navigate(['/dashboard']);
               return setAuthUser({
                 payload: { email: user.email, role: user.role },

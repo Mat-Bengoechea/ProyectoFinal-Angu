@@ -7,6 +7,10 @@ import { SharedModule } from '../../../shared/shared.module';
 import { MatDialogModule } from '@angular/material/dialog';
 import { StudentComponent } from './student.component';
 import { DialogComponent } from '../../../shared/components/dialogo/dialogo.component';
+import { StoreModule } from '@ngrx/store';
+import { studentsFeature } from './store/student.reducer';
+import { EffectsModule } from '@ngrx/effects';
+import { StudentEffects } from './store/student.effects';
 
 
 
@@ -21,6 +25,8 @@ import { DialogComponent } from '../../../shared/components/dialogo/dialogo.comp
     CommonModule,
     SharedModule,
     MatDialogModule,
+    StoreModule.forFeature(studentsFeature),
+    EffectsModule.forFeature([StudentEffects])
   ],
   exports: [
     StudentComponent

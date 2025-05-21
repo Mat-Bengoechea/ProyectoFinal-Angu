@@ -3,6 +3,11 @@ import { Student } from '../../interface/interface';
 import { StudentService } from '../../../../../core/services/student.service';
 import { MatDialog } from '@angular/material/dialog';
 import { FormComponent } from '../form/form.component';
+import { Observable } from 'rxjs';
+import { selectStudents, selectStudentsError, selectStudentsLoading } from '../../store/student.selectors';
+import { RootState } from '../../../../../core/services/store';
+import { Store } from '@ngrx/store';
+import { StudentActions } from '../../store/student.actions';
 
 @Component({
   selector: 'student-table',
@@ -13,16 +18,32 @@ import { FormComponent } from '../form/form.component';
 export class TableComponent implements OnInit {
   displayedColumns: string[] = ['nombrecompleto', 'email', 'edad', 'curso', 'actions'];
   TableStudent: Student[] = [];
+  dataSource: Student[] = [];
+
+   students$: Observable<Student[]>;
+    isLoading$: Observable<boolean>;
+    error$: Observable<any>; 
+
   constructor(private studenlistservice: StudentService,
     private dialog: MatDialog,
+    private store: Store<RootState>,
   ) {
+    this.students$ = this.store.select(selectStudents);
+    this.isLoading$ = this.store.select(selectStudentsLoading);
+    this.error$ = this.store.select(selectStudentsError);
   }
   
   ngOnInit(): void {
-    this.studenlistservice.StudentList$.subscribe((data)=> {
-      this. TableStudent = data;
+    this.store.dispatch(StudentActions.loadStudents());
+    this.store.select(selectStudents).subscribe({
+      next: (students)=> {
+        console.log('Students from store:', students);
+        this.TableStudent = students;
+      },
+      error: (error) =>{
+        console.error('Error al obtener los estudiantes:', error);
+      }
     })
-    this.studenlistservice.getStudentListobs();
   }
 
   

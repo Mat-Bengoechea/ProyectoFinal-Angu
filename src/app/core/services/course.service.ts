@@ -32,8 +32,8 @@ export class CourseService {
     this.courseEdit.next(course);
   } 
 
-  updateCourse (course: Course) {
-   return this.http.put<Course>(`${environment.apiUrl}/courses/${course.id}`, course);
+  updateCourse (course: Course): Observable<Course> {
+   return this.http.patch<Course>(`${environment.apiUrl}/courses/${course.id}`, course);
   }
 
   getCourses() {
@@ -47,38 +47,12 @@ export class CourseService {
     this.coursesTitlesSubject.next(names);
   }
 
-  addCourse(course: Course): void {
-    this.http.post<Course>(`${environment.apiUrl}/courses`, course).subscribe({
-      next: (course) => {
-        this._courses = [...this._courses, course];
-        this.coursesSubject.next(this._courses);
-        this.coursesTitlesSubject.next(this._courses.map((course) => course.title));
-    
-      },
-      error: (error) => {
-        console.error('Error al agregar el curso:', error);
-      },
-    });
+  addCourse(course: Course): Observable<Course> {
+    return this.http.post<Course>(`${environment.apiUrl}/courses`, course);
   }
 
-  deleteCourse(id: string) {
-    const confirmDelete = window.confirm(
-      '¿Estás seguro de que deseas eliminar este curso?');
-    if (!confirmDelete) {
-      return;
-    }
-    this.http.delete<Course>(`${environment.apiUrl}/courses/${id}`).subscribe({
-      next: (course) => {
-        this._courses = this._courses.filter((course) => course.id !== id);
-        this.coursesSubject.next(this._courses);
-        this.coursesTitlesSubject.next(
-          this._courses.map((course) => course.title)
-        );
-      },
-      error: (error) => {
-        console.error('Error al eliminar el curso:', error);
-      },
-    });
+  deleteCourse(id: string): Observable<Course> {
+    return this.http.delete<Course>(`${environment.apiUrl}/courses/${id}`);
   }
 
   

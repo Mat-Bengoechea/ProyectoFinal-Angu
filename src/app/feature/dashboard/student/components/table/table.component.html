@@ -1,3 +1,9 @@
+@if(isLoading$ | async) {
+  <div class="loading-container">
+    <p>Cargando cursos...</p>
+    <mat-spinner></mat-spinner>
+  </div>
+} @else{
 <table mat-table [dataSource]="TableStudent" class="mat-elevation-z8">
 
   <ng-container matColumnDef="nombrecompleto">
@@ -49,3 +55,5 @@
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 </table>
+}
+

@@ -8,6 +8,8 @@ import {
   validardescripcion,
   validartitle,
 } from '../../../../../shared/utils/validator';
+import { Store } from '@ngrx/store';
+import { CourseActions } from '../../store/course.actions';
 
 @Component({
   selector: 'course-form',
@@ -22,7 +24,8 @@ export class FormComponent {
   constructor(
     private courseService: CourseService,
     private fb: FormBuilder,
-    private matDialog: MatDialog
+    private matDialog: MatDialog,
+    private store: Store
   ) {
     this.formGroup = this.fb.group({
       id: [''],
@@ -67,7 +70,9 @@ export class FormComponent {
             if (this.isEdit) {
               this.courseService.updateCourse(this.formGroup.value);
             } else {
-              this.courseService.addCourse(this.formGroup.value);
+              this.store.dispatch(
+                CourseActions.addCourse({ course: this.formGroup.value })
+              );
             }
 
             this.formGroup.reset({

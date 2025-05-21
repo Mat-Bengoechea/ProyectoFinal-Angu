@@ -26,4 +26,32 @@ export class CourseEffects {
       )
     );
   }
+
+  addCourse$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(CourseActions.addCourse),
+      concatMap((action) =>
+        this.courseservice.addCourse(action.course).pipe(
+          map((course) => CourseActions.addCourseSuccess({ course })),
+          catchError((error) => of(CourseActions.addCourseFailure({ error })))
+        )
+      )
+    )
+  );
+
+  
+
+  deleteCourse$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(CourseActions.deleteCourse),
+      concatMap(({ id }) =>
+        this.courseservice.deleteCourse(id).pipe(
+          map(() => CourseActions.deleteCourseSuccess({ id:id })),
+          catchError((error) =>
+            of(CourseActions.deleteCourseFailure({ error }))
+          )
+        )
+      )
+    )
+  );
 }

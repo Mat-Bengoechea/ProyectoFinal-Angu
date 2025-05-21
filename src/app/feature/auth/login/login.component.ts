@@ -46,11 +46,6 @@ openFormDialog(): void {
 submit() {
   if (this.loginForm.invalid) return;
   const { email, password } = this.loginForm.value;
-  this.authService.login(email, password).subscribe(user => {
-    if (user) {
-    } else {
-      alert('Email o contraseña incorrectos');
-    }
-  });
+  this.store.dispatch(login({ email, password }));
 }
 }

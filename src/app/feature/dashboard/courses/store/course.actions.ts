@@ -1,5 +1,4 @@
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
-import { Update } from '@ngrx/entity';
 
 import { Course } from '../interface/course';
 
@@ -10,13 +9,14 @@ export const CourseActions = createActionGroup({
     'Load Courses Success': props<{ courses: Course[] }>(),
     'Load Courses Failure': props<{ error: string }>(),
     'Add Course': props<{ course: Course }>(),
-    'Upsert Course': props<{ course: Course }>(),
-    'Add Courses': props<{ courses: Course[] }>(),
-    'Upsert Courses': props<{ courses: Course[] }>(),
-    'Update Course': props<{ course: Update<Course> }>(),
-    'Update Courses': props<{ courses: Update<Course>[] }>(),
+    'Add Course Success': props<{ course: Course }>(),
+    'Add Course Failure': props<{ error: string }>(),
+    'Update Course': props<{ course: Course }>(),
+    'Update Course Success': props<{ course: Course }>(),
+    'Update Course Failure': props<{ error: string }>(),
     'Delete Course': props<{ id: string }>(),
-    'Delete Courses': props<{ ids: string[] }>(),
+    'Delete Course Success': props<{ id: string }>(),
+    'Delete Course Failure': props<{ error: string }>(),
     'Clear Courses': emptyProps(),
-  }
+  },
 });

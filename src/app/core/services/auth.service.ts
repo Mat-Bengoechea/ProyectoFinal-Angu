@@ -28,6 +28,10 @@ export class AuthService {
     );
   }
 
+  setAuthUser(user: User | null) {
+  this._authUser.next(user);
+}
+
   register(user: User): Observable<User>{
     return this.http.post<User>('/api/users', user);
   }

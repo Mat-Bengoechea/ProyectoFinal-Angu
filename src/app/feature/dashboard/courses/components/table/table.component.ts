@@ -8,6 +8,7 @@ import { RootState } from '../../../../../core/services/store';
 import { Observable } from 'rxjs';
 import { selectCourses, selectCoursesError, selectCoursesLoading } from '../../store/course.selectors';
 import { CourseActions } from '../../store/course.actions';
+import { DialogDeleteComponent } from '../../../../../shared/components/dialogo/dialogoDelete.component';
 
 
 @Component({
@@ -49,7 +50,15 @@ export class TableComponent implements OnInit {
   }
 
   deleteCourse(id: string) {
-    this.courseService.deleteCourse(id);
+this.dialog
+.open(DialogDeleteComponent).afterClosed()
+.subscribe({
+  next: (confirmed: boolean) => {
+    if (confirmed) {
+      this.store.dispatch(CourseActions.deleteCourse({ id }));
+    }
+  }
+})
   }
 
   editCourse(id: string) {

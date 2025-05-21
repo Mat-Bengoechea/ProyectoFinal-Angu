@@ -23,3 +23,4 @@ export const selectCourseByTitle = (title: string) => createSelector(
   selectCourses,
   (courses) => courses.find(course => course.title.toLowerCase() === title.toLowerCase())
 );
+

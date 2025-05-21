@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Student } from '../../feature/dashboard/student/interface/interface';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, delay } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment.development';
 
@@ -70,26 +70,22 @@ export class StudentService {
 
   getStudentListobs() {
     this.studentSubject.next(this._studentList);
-    this.http.get<Student[]>(`${environment.apiUrl}/studentList`).subscribe({
-      next: (students) => {
-        this._studentList = students;
-        this.studentSubject.next(this._studentList);
-      },
-      error: (error) => {
-        console.error('Error obteniendo la lista de estudiantes:', error);
-      },
-    });
+    return this.http
+      .get<Student[]>(`${environment.apiUrl}/studentList`)
+      .pipe(delay(3000));
   }
 
   addStudentListobs(Student: Student): void {
-    this.http.post<Student[]>(`${environment.apiUrl}/studentList`, Student).subscribe({
-      next: (students) => {
-        this._studentList = [...this._studentList, Student];
-        this.studentSubject.next(this._studentList);
-      },
-      error: (error) => {
-        console.error('Error al agregar estudiante:', error);
-      },
-    });
+    this.http
+      .post<Student[]>(`${environment.apiUrl}/studentList`, Student)
+      .subscribe({
+        next: (students) => {
+          this._studentList = [...this._studentList, Student];
+          this.studentSubject.next(this._studentList);
+        },
+        error: (error) => {
+          console.error('Error al agregar estudiante:', error);
+        },
+      });
   }
 }

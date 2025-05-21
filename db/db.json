@@ -59,12 +59,6 @@
       "title": "React",
       "description": "es una biblioteca de JavaScript para crear interfaces de usuario, particularmente para aplicaciones web de una sola página.",
       "time": "30"
-    },
-    {
-      "id": "278205bb-e2ed-4bea-9d03-97c9366548fd",
-      "title": "Rev 20",
-      "description": "23lasldvxcsmc2esdsafdsda",
-      "time": "24"
     }
   ],
   "studentList": [
@@ -87,18 +81,18 @@
     {
       "id": "e04e91be-14d0-40cf-aed7-ee335429b4ef",
       "nombre": "Tomas",
-      "apellido": "Fabiani",
+      "apellido": "Fabianis",
       "email": "fabianit@gmail.com",
       "edad": 26,
       "curso": "Svelte"
     },
     {
-      "id": "acf4afe4-69d5-4b8d-ba5b-891d4a310ee2",
+      "id": "ed561d25-a0d8-4e56-a087-f7721de10ceb",
       "nombre": "Mateo",
-      "apellido": "Olivera",
-      "email": "olimat@gmail.com",
+      "apellido": "Roseco",
+      "email": "Matseco@gmail.com",
       "edad": 23,
-      "curso": "React"
+      "curso": "Ember"
     }
   ]
 }

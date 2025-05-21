@@ -10,6 +10,7 @@ import { StoreModule } from '@ngrx/store';
 import { CourseFeature } from './store/course.reducer';
 import { EffectsModule } from '@ngrx/effects';
 import { CourseEffects } from './store/course.effects';
+import { DialogDeleteComponent } from '../../../shared/components/dialogo/dialogoDelete.component';
 
 
 
@@ -20,7 +21,8 @@ import { CourseEffects } from './store/course.effects';
     DetailsComponent,
     FormComponent,
     TableComponent,
-    DialogcourseComponent
+    DialogcourseComponent,
+    DialogDeleteComponent
   ],
   imports: [
     CommonModule, SharedModule,
