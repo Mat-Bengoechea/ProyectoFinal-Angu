@@ -1,7 +1,12 @@
 import { createFeature, createReducer, on } from '@ngrx/store';
 import { Course } from '../interface/course';
 import { CourseActions } from './course.actions';
-import { createEntityAdapter, EntityAdapter, EntityState, Update } from '@ngrx/entity';
+import {
+  createEntityAdapter,
+  EntityAdapter,
+  EntityState,
+  Update,
+} from '@ngrx/entity';
 
 export const coursesFeatureKey = 'courses';
 
@@ -18,9 +23,8 @@ export const initialState: CoursesState = adapter.getInitialState({
   courses: [],
   isLoading: false,
   error: null,
-   courseToEdit: null,
-})
-
+  courseToEdit: null,
+});
 
 export const reducer = createReducer(
   initialState,
@@ -89,30 +93,30 @@ export const reducer = createReducer(
   }),
 
   on(CourseActions.updateCourse, (state) => ({
-  ...state,
-  isLoading: true,
-})),
+    ...state,
+    isLoading: true,
+  })),
 
-on(CourseActions.updateCourseSuccess, (state, { course }) => ({
-  ...state,
-  isLoading: false,
-  courses: state.courses.map((c) => (c.id === course.id ? course : c)),
-})),
+  on(CourseActions.updateCourseSuccess, (state, { course }) => ({
+    ...state,
+    isLoading: false,
+    courses: state.courses.map((c) => (c.id === course.id ? course : c)),
+  })),
 
-on(CourseActions.updateCourseFailure, (state, { error }) => ({
-  ...state,
-  isLoading: false,
-  error,
-})),
+  on(CourseActions.updateCourseFailure, (state, { error }) => ({
+    ...state,
+    isLoading: false,
+    error,
+  })),
 
-on(CourseActions.setCourseToEditSuccess, (state, { course }) => ({
-  ...state,
-  courseToEdit: course,
-})),
-on(CourseActions.clearCourseToEdit, (state) => ({
-  ...state,
-  courseToEdit: null,
-})),
+  on(CourseActions.setCourseToEditSuccess, (state, { course }) => ({
+    ...state,
+    courseToEdit: course,
+  })),
+  on(CourseActions.clearCourseToEdit, (state) => ({
+    ...state,
+    courseToEdit: null,
+  }))
 );
 
 export const CourseFeature = createFeature({
@@ -123,9 +127,5 @@ export const CourseFeature = createFeature({
   }),
 });
 
-export const {
-  selectIds,
-  selectEntities,
-  selectAll,
-  selectTotal,
-} = CourseFeature;
+export const { selectIds, selectEntities, selectAll, selectTotal } =
+  CourseFeature;

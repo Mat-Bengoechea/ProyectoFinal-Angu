@@ -11,6 +11,7 @@ import { StoreModule } from '@ngrx/store';
 import { studentsFeature } from './store/student.reducer';
 import { EffectsModule } from '@ngrx/effects';
 import { StudentEffects } from './store/student.effects';
+import { DialogDeleteStudentComponent } from '../../../shared/components/dialogo/dialogoDeleteStudent.component';
 
 
 
@@ -19,7 +20,8 @@ import { StudentEffects } from './store/student.effects';
     FormComponent,
     TableComponent,
     StudentComponent,
-    DialogComponent
+    DialogComponent,
+    DialogDeleteStudentComponent
   ],
   imports: [
     CommonModule,

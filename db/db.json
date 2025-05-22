@@ -81,18 +81,10 @@
     {
       "id": "e04e91be-14d0-40cf-aed7-ee335429b4ef",
       "nombre": "Tomas",
-      "apellido": "Fabianis",
+      "apellido": "Fabiani",
       "email": "fabianit@gmail.com",
       "edad": 26,
       "curso": "Svelte"
-    },
-    {
-      "id": "ed561d25-a0d8-4e56-a087-f7721de10ceb",
-      "nombre": "Mateo",
-      "apellido": "Roseco",
-      "email": "Matseco@gmail.com",
-      "edad": 23,
-      "curso": "Ember"
     }
   ]
 }

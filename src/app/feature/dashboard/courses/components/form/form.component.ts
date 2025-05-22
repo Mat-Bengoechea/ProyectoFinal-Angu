@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
+import { FormGroup, FormBuilder, Validators, Form } from '@angular/forms';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { DialogcourseComponent } from '../../../../../shared/components/dialogo/dialogocourse.component';
-import { CourseService } from '../../../../../core/services/course.service';
 import { v4 as uuid } from 'uuid';
 import {
   validardescripcion,
@@ -29,7 +28,8 @@ export class FormComponent {
   constructor(
     private fb: FormBuilder,
     private matDialog: MatDialog,
-    private store: Store<RootState>
+    private store: Store<RootState>,
+    private dialogRef: MatDialogRef<FormComponent>
   ) {
     this.formGroup = this.fb.group({
       id: [''],
@@ -86,6 +86,7 @@ export class FormComponent {
               time: '',
             });
             this.isEdit = false;
+            this.dialogRef.close(true);
           }
         },
         error: (error) => {

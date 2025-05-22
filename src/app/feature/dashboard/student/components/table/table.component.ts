@@ -3,11 +3,12 @@ import { Student } from '../../interface/interface';
 import { StudentService } from '../../../../../core/services/student.service';
 import { MatDialog } from '@angular/material/dialog';
 import { FormComponent } from '../form/form.component';
-import { Observable } from 'rxjs';
-import { selectStudents, selectStudentsError, selectStudentsLoading } from '../../store/student.selectors';
+import { filter, Observable } from 'rxjs';
+import { selectStudents, selectStudentsError, selectStudentsLoading, selectStudentToEdit } from '../../store/student.selectors';
 import { RootState } from '../../../../../core/services/store';
 import { Store } from '@ngrx/store';
 import { StudentActions } from '../../store/student.actions';
+import { DialogDeleteStudentComponent } from '../../../../../shared/components/dialogo/dialogoDeleteStudent.component';
 
 @Component({
   selector: 'student-table',
@@ -48,15 +49,32 @@ export class TableComponent implements OnInit {
 
   
   editStudent(id: string) {
-    this.studenlistservice.setUpdateStudent(id);
-    this.dialog.open(FormComponent, {
+  this.store.dispatch(StudentActions.setStudentToEdit({id}));
+
+  const sub = this.store.select(selectStudentToEdit).pipe(
+    filter(student => !!student),
+  ).subscribe(student =>{
+    const dialogRef = this.dialog.open(FormComponent, {
       width: '500px',
       height: 'auto',
       disableClose: false,
     });
+
+    dialogRef.afterClosed().subscribe(()=>
+    this.store.dispatch(StudentActions.clearStudentToEdit()));
+  });
     }
 
     deleteStudent(id : string) {
-      this.studenlistservice.deleteStudent(id);
+      this.dialog
+      .open(DialogDeleteStudentComponent)
+      .afterClosed()
+      .subscribe({
+        next:(confirmed: boolean) => {
+        if (confirmed){
+          this.store.dispatch(StudentActions.deleteStudent({id}));
+        }         
+        },
+      });
    }
 }

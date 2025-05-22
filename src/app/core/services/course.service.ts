@@ -31,6 +31,10 @@ export class CourseService {
       .get<Course[]>(`${environment.apiUrl}/courses`).pipe(delay(2500))
   }
 
+  getCourseById(id: string): Observable<Course> {
+  return this.http.get<Course>(`${environment.apiUrl}/courses/${id}`); 
+}
+
 
   getCoursesTitles(): void {
     const names = this._courses.map((course) => course.title);
