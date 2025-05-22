@@ -2,14 +2,18 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { Course } from '../../interface/course';
 import { CourseService } from '../../../../../core/services/course.service';
 import { MatDialog } from '@angular/material/dialog';
-import {FormComponent} from '../form/form.component';
+import { FormComponent } from '../form/form.component';
 import { Store } from '@ngrx/store';
 import { RootState } from '../../../../../core/services/store';
-import { Observable } from 'rxjs';
-import { selectCourses, selectCoursesError, selectCoursesLoading } from '../../store/course.selectors';
+import { filter, Observable, take } from 'rxjs';
+import {
+  selectCourses,
+  selectCoursesError,
+  selectCoursesLoading,
+  selectCourseToEdit,
+} from '../../store/course.selectors';
 import { CourseActions } from '../../store/course.actions';
 import { DialogDeleteComponent } from '../../../../../shared/components/dialogo/dialogoDelete.component';
-
 
 @Component({
   selector: 'course-table',
@@ -23,13 +27,13 @@ export class TableComponent implements OnInit {
 
   courses$: Observable<Course[]>;
   isLoading$: Observable<boolean>;
-  error$: Observable<any>; 
+  error$: Observable<any>;
 
   constructor(
     private courseService: CourseService,
     @Inject('Title') private title: string,
     private dialog: MatDialog,
-    private store: Store<RootState>,
+    private store: Store<RootState>
   ) {
     this.courses$ = this.store.select(selectCourses);
     this.isLoading$ = this.store.select(selectCoursesLoading);
@@ -39,34 +43,44 @@ export class TableComponent implements OnInit {
   ngOnInit(): void {
     this.store.dispatch(CourseActions.loadCourses());
     this.store.select(selectCourses).subscribe({
-      next: (courses)=> {
+      next: (courses) => {
         console.log('Courses from store:', courses);
         this.dataSource = courses;
       },
-      error: (error) =>{
+      error: (error) => {
         console.error('Error al obtener los cursos:', error);
-      }
-    })
+      },
+    });
   }
 
   deleteCourse(id: string) {
-this.dialog
-.open(DialogDeleteComponent).afterClosed()
-.subscribe({
-  next: (confirmed: boolean) => {
-    if (confirmed) {
-      this.store.dispatch(CourseActions.deleteCourse({ id }));
-    }
-  }
-})
+    this.dialog
+      .open(DialogDeleteComponent)
+      .afterClosed()
+      .subscribe({
+        next: (confirmed: boolean) => {
+          if (confirmed) {
+            this.store.dispatch(CourseActions.deleteCourse({ id }));
+          }
+        },
+      });
   }
 
-  editCourse(id: string) {
-    this.courseService.setUpdateCourse(id);
-        this.dialog.open(FormComponent, {
-          width: '500px',
-          height: 'auto',
-          disableClose: false,
-        });
-  }
+editCourse(id: string) {
+  this.store.dispatch(CourseActions.setCourseToEdit({ id }));
+
+  const sub = this.store.select(selectCourseToEdit).pipe(
+    filter(course => !!course), 
+  ).subscribe(course => {
+    const dialogRef = this.dialog.open(FormComponent, {
+      width: '500px',
+      height: 'auto',
+      disableClose: false,
+    });
+
+    dialogRef.afterClosed().subscribe(() => {
+      this.store.dispatch(CourseActions.clearCourseToEdit());
+    });
+  });
+}
 }

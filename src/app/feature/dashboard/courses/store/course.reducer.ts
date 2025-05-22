@@ -9,6 +9,7 @@ export interface CoursesState extends EntityState<Course> {
   courses: Course[];
   isLoading: boolean;
   error: any;
+  courseToEdit: Course | null;
 }
 
 export const adapter: EntityAdapter<Course> = createEntityAdapter<Course>();
@@ -17,6 +18,7 @@ export const initialState: CoursesState = adapter.getInitialState({
   courses: [],
   isLoading: false,
   error: null,
+   courseToEdit: null,
 })
 
 
@@ -85,6 +87,32 @@ export const reducer = createReducer(
       error: error,
     };
   }),
+
+  on(CourseActions.updateCourse, (state) => ({
+  ...state,
+  isLoading: true,
+})),
+
+on(CourseActions.updateCourseSuccess, (state, { course }) => ({
+  ...state,
+  isLoading: false,
+  courses: state.courses.map((c) => (c.id === course.id ? course : c)),
+})),
+
+on(CourseActions.updateCourseFailure, (state, { error }) => ({
+  ...state,
+  isLoading: false,
+  error,
+})),
+
+on(CourseActions.setCourseToEditSuccess, (state, { course }) => ({
+  ...state,
+  courseToEdit: course,
+})),
+on(CourseActions.clearCourseToEdit, (state) => ({
+  ...state,
+  courseToEdit: null,
+})),
 );
 
 export const CourseFeature = createFeature({

@@ -24,10 +24,11 @@ describe('TableComponent', () => {
 
     await TestBed.configureTestingModule({
       declarations: [TableComponent],
+      imports: [Title],
       providers: [
         provideMockStore({}),
         { provide: CourseService, useValue: courseServiceSpy },
-        Title
+       
       ]
     }).compileComponents();
 

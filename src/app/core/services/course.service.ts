@@ -15,22 +15,11 @@ export class CourseService {
   private coursesTitlesSubject = new BehaviorSubject<string[]>([]);
   coursesTitles$ = this.coursesTitlesSubject.asObservable();
 
-  courseEdit = new BehaviorSubject<Course | null>(null);
-  courseEdit$ = this.courseEdit.asObservable();
 
   constructor(private http: HttpClient) {}
 
   private _courses: Course[] = [];
 
-
-  setUpdateCourse(id : string){
-    const course = this._courses.find((course) => course.id === id);
-    if (!course){
-      alert('No se encontró el curso');
-      return;
-    }
-    this.courseEdit.next(course);
-  } 
 
   updateCourse (course: Course): Observable<Course> {
    return this.http.patch<Course>(`${environment.apiUrl}/courses/${course.id}`, course);
@@ -39,8 +28,9 @@ export class CourseService {
   getCourses() {
     this.coursesSubject.next(this._courses);
    return this.http
-      .get<Course[]>(`${environment.apiUrl}/courses`).pipe(delay(3000))
+      .get<Course[]>(`${environment.apiUrl}/courses`).pipe(delay(2500))
   }
+
 
   getCoursesTitles(): void {
     const names = this._courses.map((course) => course.title);

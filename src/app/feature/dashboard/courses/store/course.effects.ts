@@ -54,4 +54,43 @@ export class CourseEffects {
       )
     )
   );
+
+  updateCourse$ = createEffect(() =>
+  this.actions$.pipe(
+    ofType(CourseActions.updateCourse),
+    concatMap(({ course }) =>
+      this.courseservice.updateCourse(course).pipe(
+        map((updatedCourse) =>
+          CourseActions.updateCourseSuccess({ course: updatedCourse })
+        ),
+        catchError((error) =>
+          of(CourseActions.updateCourseFailure({ error }))
+        )
+      )
+    )
+  )
+);
+
+setCourseToEdit$ = createEffect(() =>
+  this.actions$.pipe(
+    ofType(CourseActions.setCourseToEdit),
+    concatMap(({ id }) =>
+      this.courseservice.getCourses().pipe( 
+        map((courses) => {
+          const course = courses.find(c => c.id === id);
+          if (course) {
+            return CourseActions.setCourseToEditSuccess({ course });
+          } else {
+            return CourseActions.setCourseToEditFailure({ error: 'Curso no encontrado' });
+          }
+        }),
+        catchError((error) =>
+          of(CourseActions.setCourseToEditFailure({ error }))
+        )
+      )
+    )
+  )
+);
 }
+
+

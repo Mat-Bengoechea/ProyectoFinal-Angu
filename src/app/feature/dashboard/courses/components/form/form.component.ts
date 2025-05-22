@@ -10,6 +10,11 @@ import {
 } from '../../../../../shared/utils/validator';
 import { Store } from '@ngrx/store';
 import { CourseActions } from '../../store/course.actions';
+import { RootState } from '../../../../../core/services/store';
+import {
+  selectCourses,
+  selectCourseToEdit,
+} from '../../store/course.selectors';
 
 @Component({
   selector: 'course-form',
@@ -22,10 +27,9 @@ export class FormComponent {
   isEdit: boolean = false;
 
   constructor(
-    private courseService: CourseService,
     private fb: FormBuilder,
     private matDialog: MatDialog,
-    private store: Store
+    private store: Store<RootState>
   ) {
     this.formGroup = this.fb.group({
       id: [''],
@@ -39,14 +43,9 @@ export class FormComponent {
     console.log('Form Group Initial Values:', this.formGroup.value);
   }
   ngOnInit(): void {
-    this.courseService.courseEdit$.subscribe((course) => {
+    this.store.select(selectCourseToEdit).subscribe((course) => {
       if (course) {
-        this.formGroup.patchValue({
-          id: course.id,
-          title: course.title,
-          description: course.description,
-          time: course.time,
-        });
+        this.formGroup.patchValue(course);
         this.isEdit = true;
       } else {
         this.formGroup.reset();
@@ -68,7 +67,12 @@ export class FormComponent {
           if (confirmed) {
             console.log(this.formGroup.value);
             if (this.isEdit) {
-              this.courseService.updateCourse(this.formGroup.value);
+              this.store.dispatch(
+                CourseActions.updateCourse({ course: this.formGroup.value })
+              );
+              this.store.select(selectCourses).subscribe((courses) => {
+                console.log('Cursos después del update:', courses);
+              });
             } else {
               this.store.dispatch(
                 CourseActions.addCourse({ course: this.formGroup.value })
