@@ -22,9 +22,10 @@ import { RouterModule } from '@angular/router';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FooterComponent } from './components/footer/footer.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { DialogComponent } from './components/dialogo/dialogo.component';
 
 @NgModule({
-  declarations: [SidebarComponent, ToolbarComponent, ElementComponent, FullNamePipe, HideEmailPipe, DirectiveDirective, FooterComponent],
+  declarations: [SidebarComponent, ToolbarComponent, ElementComponent, FullNamePipe, HideEmailPipe, DirectiveDirective, FooterComponent,DialogComponent],
   imports: [
     CommonModule,
     MatSidenavModule,
@@ -65,7 +66,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     SidebarComponent,
     MatFormFieldModule,
     FooterComponent,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    DialogComponent
   ],
 
 })

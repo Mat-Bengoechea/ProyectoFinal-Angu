@@ -1,7 +1,6 @@
 import { createFeature, createReducer, createSelector, on } from '@ngrx/store';
 import { Student } from '../interface/interface';
 import { StudentActions } from './student.actions';
-import { filter } from 'rxjs';
 
 export const studentsFeatureKey = 'students';
 
