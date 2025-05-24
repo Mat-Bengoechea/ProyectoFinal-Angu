@@ -3,7 +3,6 @@ import { BehaviorSubject, delay, Observable } from 'rxjs';
 import { Users } from '../../feature/dashboard/users/interface/interface';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment.development';
-import { User } from '../../feature/auth/interfaces/User';
 
 @Injectable({
   providedIn: 'root',

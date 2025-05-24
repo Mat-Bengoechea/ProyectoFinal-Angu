@@ -12,7 +12,6 @@ describe('UserEffects', () => {
     TestBed.configureTestingModule({
       providers: [
         UserEffects,
-        provideMockActions(() => actions$)
       ]
     });
 

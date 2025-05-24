@@ -1,43 +1,57 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormComponent } from './form.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { CourseService } from '../../../../../core/services/course.service';
+import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { SharedModule } from '../../../../../shared/shared.module';
+import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
+import { DialogcourseComponent } from '../../../../../shared/components/dialogo/dialogocourse.component';
+import { CourseActions } from '../../store/course.actions';
+import { selectCourseToEdit } from '../../store/course.selectors';
 
 describe('FormComponent', () => {
   let component: FormComponent;
   let fixture: ComponentFixture<FormComponent>;
-   let courseServiceSpy: jasmine.SpyObj<CourseService>;
+  let storeSpy: jasmine.SpyObj<Store<any>>;
   let matDialogSpy: jasmine.SpyObj<MatDialog>;
+  let dialogRefSpy: jasmine.SpyObj<MatDialogRef<FormComponent>>;
+
+  const createStoreSpy = () => {
+    const spy = jasmine.createSpyObj('Store', ['dispatch', 'select']);
+    spy.select.and.callFake((selector: any) => {
+      if (selector === selectCourseToEdit) {
+        return of(null); 
+      }
+      return of();
+    });
+    return spy;
+  };
 
   beforeEach(async () => {
-    const courseServiceMock = jasmine.createSpyObj('CourseService', ['addCourse', 'updateCourse', 'courseEdit$']);
-    courseServiceMock.courseEdit$ = of(null);
-    const matDialogMock = jasmine.createSpyObj('MatDialog', ['open']);
+    storeSpy = createStoreSpy();
+    matDialogSpy = jasmine.createSpyObj<MatDialog>('MatDialog', ['open']);
+    dialogRefSpy = jasmine.createSpyObj<MatDialogRef<FormComponent>>('MatDialogRef', ['close']);
 
     await TestBed.configureTestingModule({
-      imports: [SharedModule,ReactiveFormsModule, MatDialogModule],
+      imports: [SharedModule, ReactiveFormsModule, MatDialogModule],
       declarations: [FormComponent],
-      providers: [{ provide: CourseService, useValue: courseServiceMock },
-        { provide: MatDialog, useValue: matDialogMock },],
+      providers: [
+        { provide: Store, useValue: storeSpy },
+        { provide: MatDialog, useValue: matDialogSpy },
+        { provide: MatDialogRef, useValue: dialogRefSpy },
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(FormComponent);
     component = fixture.componentInstance;
-    courseServiceSpy = TestBed.inject(CourseService) as jasmine.SpyObj<CourseService>;
-    matDialogSpy = TestBed.inject(MatDialog) as jasmine.SpyObj<MatDialog>;
-
-    
     fixture.detectChanges();
   });
 
-   it('should create the component', () => {
+  it('should create the component', () => {
     expect(component).toBeTruthy();
   });
 
-   it('should patch form values when editing a course', () => {
+  it('should patch form values when editing a course', () => {
     const mockCourse = {
       id: '123',
       title: 'Test Course',
@@ -45,42 +59,57 @@ describe('FormComponent', () => {
       time: '120',
     };
 
-    courseServiceSpy.courseEdit$ = of(mockCourse);
+    storeSpy.select.and.callFake((selector: any) => {
+      if (selector === selectCourseToEdit) {
+        return of(mockCourse);
+      }
+      return of();
+    });
+
     component.ngOnInit();
 
     expect(component.formGroup.value).toEqual(mockCourse);
     expect(component.isEdit).toBeTrue();
   });
 
-  it('should open the dialog and add a course when not in edit mode', () => {
-    matDialogSpy.open.and.returnValue({
-      afterClosed: () => of(true),
-    } as any);
+  it('should dispatch addCourse and close dialog when confirmed and not in edit mode', () => {
+    const dialogMockRef = {
+      afterClosed: () => of(true)
+    } as any;
 
-    const mockCourse = {
-      id: 'generated-id',
+    matDialogSpy.open.and.returnValue(dialogMockRef);
+
+    const formValue = {
+      id: '',
       title: 'New Course',
       description: 'This is a new course',
       time: '60',
     };
 
-    spyOn(component, 'submit').and.callThrough();
-    spyOn(component['formGroup'], 'patchValue').and.callFake(() => {
-      component.formGroup.setValue(mockCourse);
-    });
-
+    component.formGroup.setValue(formValue);
+    component.isEdit = false;
     component.submit();
 
-    expect(matDialogSpy.open).toHaveBeenCalled();
-    expect(courseServiceSpy.addCourse).toHaveBeenCalledWith(mockCourse);
+    expect(matDialogSpy.open).toHaveBeenCalledWith(DialogcourseComponent);
+    expect(storeSpy.dispatch).toHaveBeenCalledWith(jasmine.objectContaining({
+      type: CourseActions.addCourse.type,
+      course: jasmine.objectContaining({
+        title: 'New Course',
+        description: 'This is a new course',
+        time: '60',
+      }),
+    }));
+    expect(dialogRefSpy.close).toHaveBeenCalledWith(true);
+    expect(component.isEdit).toBeFalse();
   });
 
-  it('should reset the form and set isEdit to false after submission', () => {
-    matDialogSpy.open.and.returnValue({
-      afterClosed: () => of(true),
-    } as any);
+  it('should dispatch updateCourse when confirmed and in edit mode', () => {
+    const dialogMockRef = {
+      afterClosed: () => of(true)
+    } as any;
 
-    component.isEdit = true;
+    matDialogSpy.open.and.returnValue(dialogMockRef);
+
     component.formGroup.setValue({
       id: '123',
       title: 'Updated Course',
@@ -88,16 +117,20 @@ describe('FormComponent', () => {
       time: '90',
     });
 
+    component.isEdit = true;
     component.submit();
 
-    expect(component.formGroup.value).toEqual({
-      id: '',
-      title: '',
-      description: '',
-      time: '',
-    });
+    expect(storeSpy.dispatch).toHaveBeenCalledWith(jasmine.objectContaining({
+      type: CourseActions.updateCourse.type,
+      course: {
+        id: '123',
+        title: 'Updated Course',
+        description: 'Updated description',
+        time: '90',
+      },
+    }));
+
+    expect(dialogRefSpy.close).toHaveBeenCalledWith(true);
     expect(component.isEdit).toBeFalse();
   });
-
-
 });
