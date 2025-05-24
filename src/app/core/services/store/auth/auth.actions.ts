@@ -1,4 +1,5 @@
 import { createAction, props } from "@ngrx/store";
+import { User } from "../../../../feature/auth/interfaces/User";
 
 
 export interface AuthPayload {
@@ -8,7 +9,7 @@ export interface AuthPayload {
 
 export const setAuthUser = createAction(
     "[Auth] SetAuthUser",
-    props<{payload: AuthPayload}>()
+    props<{payload: User}>()
 );
 
 export const unsetAuthUser = createAction('[Auth] UnsetAuthUser');

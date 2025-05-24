@@ -26,7 +26,7 @@ export class AuthEffects {
                 this.authService.setAuthUser(user);
               this.router.navigate(['/dashboard']);
               return setAuthUser({
-                payload: { email: user.email, role: user.role },
+                payload: user,
               });
             } else {
               alert('Email o contraseña incorrectos');

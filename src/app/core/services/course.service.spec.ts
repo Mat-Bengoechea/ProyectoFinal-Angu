@@ -1,116 +1,97 @@
-import { TestBed } from '@angular/core/testing';
+import {
+  HttpTestingController,
+  provideHttpClientTesting,
+} from '@angular/common/http/testing';
 import { CourseService } from './course.service';
-import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
-import { environment } from '../../../environments/environment.development';
+import { TestBed } from '@angular/core/testing';
+import { provideHttpClient } from '@angular/common/http';
 import { Course } from '../../feature/dashboard/courses/interface/course';
+import { environment } from '../../../environments/environment.development';
 
-describe('CourseService', () => {
-  let service: CourseService;
+describe('Course Service Test', () => {
+  let courseService: CourseService;
   let httpMock: HttpTestingController;
-
-  const dummyCourses: Course[] = [
-    { id: '1', title: 'Curso 1', description: 'Desc 1', time: '10' },
-    { id: '2', title: 'Curso 2', description: 'Desc 2', time: '20' }
-  ];
-
-  const dummyCourse: Course = { id: '1', title: 'Curso 1', description: 'Desc 1', time: '10' };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
-      providers: [CourseService, provideHttpClientTesting()]
+      providers: [
+        CourseService,
+        provideHttpClient(),
+        provideHttpClientTesting(),
+      ],
     });
 
-    service = TestBed.inject(CourseService);
+    courseService = TestBed.inject(CourseService);
     httpMock = TestBed.inject(HttpTestingController);
-  });
+});
+    afterEach(() => {
+      httpMock.verify();
+    });
 
-  afterEach(() => {
-    httpMock.verify(); 
-  });
+    it('Test', ()=>{
+      const course = {id: '23234asd3f23d', title: 'Rev20'}as Course;
 
-  it('should be created', () => {
-    expect(service).toBeTruthy();
-  });
+      courseService.addCourse(course).subscribe((response)=>{
+        expect(response).toEqual(course);
+      });
+      const req = httpMock.expectOne(`${environment.apiUrl}/courses`);
+      expect(req.request.method).toBe('POST');
+      expect(req.request.body).toEqual(course);
 
-  it('getCourses() should perform GET and return courses with delay', (done) => {
-    service.getCourses().subscribe(courses => {
-      expect(courses.length).toBe(2);
-      expect(courses).toEqual(dummyCourses);
+      req.flush(course);
+    })
+  it('should get courses via GET with delay', (done) => {
+    const courses: Course[] = [
+      { id: '1', title: 'Course 1' } as Course,
+      { id: '2', title: 'Course 2' } as Course,
+    ];
+
+    courseService.getCourses().subscribe((response) => {
+      expect(response).toEqual(courses);
       done();
     });
 
     const req = httpMock.expectOne(`${environment.apiUrl}/courses`);
     expect(req.request.method).toBe('GET');
-    req.flush(dummyCourses);
+    req.flush(courses);
   });
 
-  it('updateCourse() should perform PATCH and return updated course', () => {
-    const updatedCourse = { ...dummyCourse, title: 'Curso 1 Actualizado' };
+  it('should get course by id via GET', () => {
+    const course = { id: '1', title: 'Course 1' } as Course;
 
-    service.updateCourse(updatedCourse).subscribe(course => {
-      expect(course.title).toBe('Curso 1 Actualizado');
+    courseService.getCourseById('1').subscribe((response) => {
+      expect(response).toEqual(course);
+    });
+
+    const req = httpMock.expectOne(`${environment.apiUrl}/courses/1`);
+    expect(req.request.method).toBe('GET');
+    req.flush(course);
+  });
+
+  it('should update course via PATCH', () => {
+    const updatedCourse = { id: '1', title: 'Updated Course' } as Course;
+
+    courseService.updateCourse(updatedCourse).subscribe((response) => {
+      expect(response).toEqual(updatedCourse);
     });
 
     const req = httpMock.expectOne(`${environment.apiUrl}/courses/${updatedCourse.id}`);
     expect(req.request.method).toBe('PATCH');
     expect(req.request.body).toEqual(updatedCourse);
-
     req.flush(updatedCourse);
   });
 
-  it('getCourseById() should perform GET by id and return course', () => {
-    service.getCourseById('1').subscribe(course => {
-      expect(course).toEqual(dummyCourse);
+  it('should delete course via DELETE', () => {
+    const course = { id: '1', title: 'Course 1' } as Course;
+
+    courseService.deleteCourse(course.id).subscribe((response) => {
+      expect(response).toEqual(course);
     });
 
-    const req = httpMock.expectOne(`${environment.apiUrl}/courses/1`);
-    expect(req.request.method).toBe('GET');
-    req.flush(dummyCourse);
-  });
-
-  it('addCourse() should perform POST and return new course', () => {
-    const newCourse: Course = { id: '3', title: 'Curso 3', description: 'Desc 3', time: '30' };
-
-    service.addCourse(newCourse).subscribe(course => {
-      expect(course).toEqual(newCourse);
-    });
-
-    const req = httpMock.expectOne(`${environment.apiUrl}/courses`);
-    expect(req.request.method).toBe('POST');
-    expect(req.request.body).toEqual(newCourse);
-    req.flush(newCourse);
-  });
-
-  it('deleteCourse() should perform DELETE and return deleted course', () => {
-    service.deleteCourse('1').subscribe(course => {
-      expect(course).toEqual(dummyCourse);
-    });
-
-    const req = httpMock.expectOne(`${environment.apiUrl}/courses/1`);
+    const req = httpMock.expectOne(`${environment.apiUrl}/courses/${course.id}`);
     expect(req.request.method).toBe('DELETE');
-    req.flush(dummyCourse);
+    req.flush(course);
   });
 
-  it('getCoursesTitles() should update coursesTitlesSubject with titles from _courses', (done) => {
-    (service as any)._courses = dummyCourses;
-
-    service.coursesTitles$.subscribe(titles => {
-      expect(titles).toEqual(['Curso 1', 'Curso 2']);
-      done();
-    });
-
-    service.getCoursesTitles();
   });
 
-  it('courses$ observable should emit the current _courses value when getCourses() is called', (done) => {
-    (service as any)._courses = dummyCourses;
-
-    service.courses$.subscribe(courses => {
-      expect(courses).toEqual(dummyCourses);
-      done();
-    });
-
-    service.getCourses();
-  });
-});

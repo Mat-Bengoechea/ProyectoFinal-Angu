@@ -23,7 +23,7 @@
     },
     {
       "id": "3d019bd3-2605-475c-8827-754eb6865a27",
-      "fullname": "Faustino Rodriuez",
+      "fullname": "Faustino Rodriguez",
       "email": "Faustino@gmail.com",
       "password": "Faustino2332423",
       "role": "user"
@@ -65,7 +65,7 @@
     {
       "id": "g2b3c4d5-e6f7-8g9h-0i1j-k2l3m4n5o6p7",
       "nombre": "Ana",
-      "apellido": "Gómes",
+      "apellido": "Gómez",
       "email": "gomeana@gmail.com",
       "edad": 25,
       "curso": "Svelte"
@@ -80,7 +80,7 @@
     },
     {
       "id": "e04e91be-14d0-40cf-aed7-ee335429b4ef",
-      "nombre": "Toma",
+      "nombre": "Tomas",
       "apellido": "Fabiani",
       "email": "fabianit@gmail.com",
       "edad": 26,

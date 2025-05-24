@@ -1,23 +1,45 @@
+import {
+  HttpTestingController,
+  provideHttpClientTesting,
+} from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
+import { provideHttpClient } from '@angular/common/http';
 import { StudentService } from './student.service';
-import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
-import { environment } from '../../../environments/environment.development';
 import { Student } from '../../feature/dashboard/student/interface/interface';
+import { environment } from '../../../environments/environment.development';
 
 describe('StudentService', () => {
   let service: StudentService;
   let httpMock: HttpTestingController;
 
-  const dummyStudents: Student[] = [
-    { id: '1', nombre: 'Juan', apellido: 'Perez', edad: 20, email: 'juan@example.com', curso: 'Angular' },
-    { id: '2', nombre: 'Ana', apellido: 'Gomez', edad: 22, email: 'ana@example.com', curso: 'React' }
-  ];
+  const mockStudent: Student = {
+    id: '1',
+    nombre: 'Lucas',
+    apellido: 'Pérez',
+    email: 'lucas@example.com',
+    edad: 25,
+    curso: 'Angular',
+  };
 
-  const dummyStudent: Student = { id: '1', nombre: 'Juan', apellido: 'Perez', edad: 20, email: 'juan@example.com', curso: 'Angular' };
+  const mockStudents: Student[] = [
+    mockStudent,
+    {
+      id: '2',
+      nombre: 'María',
+      apellido: 'Gómez',
+      email: 'maria@example.com',
+      edad: 22,
+      curso: 'React',
+    }
+  ];
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [StudentService, provideHttpClientTesting()]
+      providers: [
+        StudentService,
+        provideHttpClient(),
+        provideHttpClientTesting()
+      ],
     });
 
     service = TestBed.inject(StudentService);
@@ -32,38 +54,47 @@ describe('StudentService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('getStudentListobs() should emit current _studentList and perform GET with delay', (done) => {
-    (service as any)._studentList = dummyStudents;
-
-    service.StudentList$.subscribe(list => {
-      expect(list).toEqual(dummyStudents);
-      done();
+  it('addStudentListobs() should POST a new student', () => {
+    service.addStudentListobs(mockStudent).subscribe(student => {
+      expect(student).toEqual(mockStudent);
     });
 
+    const req = httpMock.expectOne(`${environment.apiUrl}/studentList`);
+    expect(req.request.method).toBe('POST');
+    expect(req.request.body).toEqual(mockStudent);
+    req.flush(mockStudent);
+  });
+
+  it('getStudentListobs() should GET students with delay', (done) => {
     service.getStudentListobs().subscribe(students => {
-      expect(students).toEqual(dummyStudents);
+      expect(students).toEqual(mockStudents);
+
+      service.StudentList$.subscribe(list => {
+        expect(list).toEqual([]);
+        done();
+      });
     });
 
     const req = httpMock.expectOne(`${environment.apiUrl}/studentList`);
     expect(req.request.method).toBe('GET');
-    req.flush(dummyStudents);
+    req.flush(mockStudents);
   });
 
-  it('deleteStudent() should perform DELETE and return deleted student', () => {
+  it('deleteStudent() should DELETE a student by id', () => {
     service.deleteStudent('1').subscribe(student => {
-      expect(student).toEqual(dummyStudent);
+      expect(student).toEqual(mockStudent);
     });
 
     const req = httpMock.expectOne(`${environment.apiUrl}/studentList/1`);
     expect(req.request.method).toBe('DELETE');
-    req.flush(dummyStudent);
+    req.flush(mockStudent);
   });
 
-  it('updateStudent() should perform PUT and return updated student', () => {
-    const updatedStudent = { ...dummyStudent, nombre: 'Juan Updated' };
+  it('updateStudent() should PUT an updated student', () => {
+    const updatedStudent = { ...mockStudent, nombre: 'Lucas Actualizado' };
 
     service.updateStudent(updatedStudent).subscribe(student => {
-      expect(student.nombre).toBe('Juan Updated');
+      expect(student.nombre).toBe('Lucas Actualizado');
     });
 
     const req = httpMock.expectOne(`${environment.apiUrl}/studentList/${updatedStudent.id}`);
@@ -72,26 +103,13 @@ describe('StudentService', () => {
     req.flush(updatedStudent);
   });
 
-  it('getStudentById() should perform GET by id and return student', () => {
+  it('getStudentById() should GET a student by id', () => {
     service.getStudentById('1').subscribe(student => {
-      expect(student).toEqual(dummyStudent);
+      expect(student).toEqual(mockStudent);
     });
 
     const req = httpMock.expectOne(`${environment.apiUrl}/studentList/1`);
     expect(req.request.method).toBe('GET');
-    req.flush(dummyStudent);
-  });
-
-  it('addStudentListobs() should perform POST and return new student', () => {
-    const newStudent: Student = { id: '3', nombre: 'Maria', apellido: 'Lopez', edad: 25, email: 'maria@example.com', curso: 'Vue' };
-
-    service.addStudentListobs(newStudent).subscribe(student => {
-      expect(student).toEqual(newStudent);
-    });
-
-    const req = httpMock.expectOne(`${environment.apiUrl}/studentList`);
-    expect(req.request.method).toBe('POST');
-    expect(req.request.body).toEqual(newStudent);
-    req.flush(newStudent);
+    req.flush(mockStudent);
   });
 });

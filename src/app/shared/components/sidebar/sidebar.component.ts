@@ -5,6 +5,7 @@ import { AuthService } from '../../../core/services/auth.service';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { RootState } from '../../../core/services/store';
+import { selectUserFullName } from '../../../core/services/store/auth/auth.selects';
 
 @Component({
   selector: 'sidebar',
@@ -24,7 +25,7 @@ export class SidebarComponent {
     private router: Router,
     private store: Store<RootState>
   ) {
-    this.userName$ = this.userService.userName$;
+    this.userName$ = this.store.select(selectUserFullName);
     this.authUser = this.authService.authUser$;
     this.authUser$ = this.store.select((state) => state.auth.authUser);
   }

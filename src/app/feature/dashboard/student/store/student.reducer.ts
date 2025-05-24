@@ -107,7 +107,6 @@ export const reducer = createReducer(
     ...state,
     studentToEdit: null,
   }))
-
 );
 
 

@@ -10,7 +10,7 @@ import { SharedModule } from '../../../../../shared/shared.module';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { selectCourses } from '../../../courses/store/course.selectors';
 
-fdescribe('TablacourseuserComponent', () => {
+describe('TablacourseuserComponent', () => {
   let component: TablacourseuserComponent;
   let fixture: ComponentFixture<TablacourseuserComponent>;
   let mockStore: any;
